@@ -8,6 +8,18 @@ import {
   ADDENDA_FIELDS,
   BATCH_CONTROL_FIELDS,
   FILE_CONTROL_FIELDS,
+  ADDENDA_10_FIELDS,
+  ADDENDA_11_FIELDS,
+  ADDENDA_12_FIELDS,
+  ADDENDA_13_FIELDS,
+  ADDENDA_14_FIELDS,
+  ADDENDA_15_FIELDS,
+  ADDENDA_16_FIELDS,
+  ADDENDA_17_FIELDS,
+  ADDENDA_18_FIELDS,
+  ADDENDA_98_FIELDS,
+  ADDENDA_99_FIELDS,
+  ADV_ENTRY_DETAIL_FIELDS,
 } from '../data/ach-data.js';
 
 interface FieldDef {
@@ -25,6 +37,23 @@ const RECORD_TYPES: { type: string; fields: FieldDef[] }[] = [
   { type: '7', fields: ADDENDA_FIELDS },
   { type: '8', fields: BATCH_CONTROL_FIELDS },
   { type: '9', fields: FILE_CONTROL_FIELDS },
+];
+
+const IAT_ADDENDA_TYPES: { code: string; label: string; fields: FieldDef[] }[] = [
+  { code: '10', label: 'Transaction Info', fields: ADDENDA_10_FIELDS },
+  { code: '11', label: 'Originator Name/Address', fields: ADDENDA_11_FIELDS },
+  { code: '12', label: 'Originator City/Country', fields: ADDENDA_12_FIELDS },
+  { code: '13', label: 'ODFI Information', fields: ADDENDA_13_FIELDS },
+  { code: '14', label: 'RDFI Information', fields: ADDENDA_14_FIELDS },
+  { code: '15', label: 'Receiver Identification', fields: ADDENDA_15_FIELDS },
+  { code: '16', label: 'Receiver Address', fields: ADDENDA_16_FIELDS },
+  { code: '17', label: 'Remittance Information', fields: ADDENDA_17_FIELDS },
+  { code: '18', label: 'Foreign Correspondent Bank', fields: ADDENDA_18_FIELDS },
+];
+
+const SPECIAL_ADDENDA_TYPES: { code: string; label: string; fields: FieldDef[] }[] = [
+  { code: '98', label: 'Notification of Change', fields: ADDENDA_98_FIELDS },
+  { code: '99', label: 'Return', fields: ADDENDA_99_FIELDS },
 ];
 
 @customElement('page-format')
@@ -98,6 +127,23 @@ export class PageFormat extends LitElement {
       margin-bottom: 0.75rem;
       letter-spacing: 0;
     }
+    h3 {
+      color: var(--color-text-bright);
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+    }
+    .addenda-code {
+      display: inline-block;
+      background: var(--color-type);
+      color: #fff;
+      padding: 0.1rem 0.4rem;
+      border-radius: 3px;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      margin-right: 0.5rem;
+      font-size: 0.8rem;
+    }
   `;
 
   private _renderRuler() {
@@ -120,6 +166,26 @@ export class PageFormat extends LitElement {
         <thead><tr><th>Position</th><th>Field Name</th><th>Format</th><th>Description</th></tr></thead>
         <tbody>
           ${rt.fields.map(f => html`
+            <tr>
+              <td class="pos">${f.start}–${f.end - 1}</td>
+              <td>${f.name}</td>
+              <td class="fmt">${f.format ?? '—'}</td>
+              <td>${f.description}</td>
+            </tr>
+          `)}
+        </tbody>
+      </table>
+    `;
+  }
+
+  private _renderAddendaTable(at: { code: string; label: string; fields: FieldDef[] }) {
+    return html`
+      <h3><span class="addenda-code">${at.code}</span>${at.label}</h3>
+      ${this._renderRuler()}
+      <table>
+        <thead><tr><th>Position</th><th>Field Name</th><th>Format</th><th>Description</th></tr></thead>
+        <tbody>
+          ${at.fields.map(f => html`
             <tr>
               <td class="pos">${f.start}–${f.end - 1}</td>
               <td>${f.name}</td>
@@ -155,6 +221,31 @@ export class PageFormat extends LitElement {
       </div>
 
       ${RECORD_TYPES.map(rt => this._renderRecordTable(rt))}
+
+      <h2>IAT Addenda Records (Types 10–18)</h2>
+      <p>International ACH Transactions (IAT) use specialized addenda records to carry originator, receiver, and bank information required for cross-border payments. Each IAT entry requires addenda types 10–16, with optional types 17 and 18.</p>
+      ${IAT_ADDENDA_TYPES.map(at => this._renderAddendaTable(at))}
+
+      <h2>Special Addenda Records</h2>
+      <p>These addenda types are used for Notifications of Change (NOC) and Returns, applicable to all SEC codes including IAT.</p>
+      ${SPECIAL_ADDENDA_TYPES.map(at => this._renderAddendaTable(at))}
+
+      <h2>ADV Entry Detail (SEC=ADV)</h2>
+      <p>Automated Accounting Advice entries use a different field layout than standard entry details. ADV entries carry advisory (non-monetary) accounting information with transaction codes 81–88.</p>
+      ${this._renderRuler()}
+      <table>
+        <thead><tr><th>Position</th><th>Field Name</th><th>Format</th><th>Description</th></tr></thead>
+        <tbody>
+          ${ADV_ENTRY_DETAIL_FIELDS.map(f => html`
+            <tr>
+              <td class="pos">${f.start}–${f.end - 1}</td>
+              <td>${f.name}</td>
+              <td class="fmt">${f.format ?? '—'}</td>
+              <td>${f.description}</td>
+            </tr>
+          `)}
+        </tbody>
+      </table>
     `;
   }
 }

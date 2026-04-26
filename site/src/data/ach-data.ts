@@ -10,7 +10,21 @@ export {
   ADDENDA_FIELDS,
   BATCH_CONTROL_FIELDS,
   FILE_CONTROL_FIELDS,
+  ADDENDA_10_FIELDS,
+  ADDENDA_11_FIELDS,
+  ADDENDA_12_FIELDS,
+  ADDENDA_13_FIELDS,
+  ADDENDA_14_FIELDS,
+  ADDENDA_15_FIELDS,
+  ADDENDA_16_FIELDS,
+  ADDENDA_17_FIELDS,
+  ADDENDA_18_FIELDS,
+  ADDENDA_98_FIELDS,
+  ADDENDA_99_FIELDS,
+  ADV_ENTRY_DETAIL_FIELDS,
   FIELD_DESCRIPTIONS,
   getFieldAtPosition,
   getSecCodeForLine,
 } from '../../../shared/src/achConstants.js';
+
+export { TOKEN_TYPES, getTokenType } from '../../../shared/src/semanticTokenMap.js';

@@ -43,6 +43,46 @@ export function formatDate(value: string): string | null {
   return `📅 20${yy}-${mm}-${dd}`;
 }
 
+/** Convert HHMM to formatted time string */
+export function formatTime(value: string): string | null {
+  const v = value.trim();
+  if (v.length !== 4 || isNaN(Number(v))) return null;
+  const hh = v.substring(0, 2);
+  const mm = v.substring(2, 4);
+  return `${hh}:${mm}`;
+}
+
+/**
+ * Return a human-friendly formatted value for display, or null if no
+ * special formatting applies. Covers amounts, dates, and times.
+ */
+export function getFormattedValue(fieldName: string, rawValue: string, format?: string): string | null {
+  const trimmed = rawValue.trim();
+  if (!trimmed) return null;
+
+  // Amount fields → dollars
+  if (fieldName.toLowerCase().includes('amount')) {
+    return formatAmount(trimmed);
+  }
+
+  // Time fields (HHMM format)
+  if (format === 'HHMM') {
+    return formatTime(trimmed);
+  }
+
+  // Date fields (YYMMDD)
+  if (format === 'YYMMDD' && trimmed.length === 6) {
+    const yy = trimmed.substring(0, 2);
+    const mm = trimmed.substring(2, 4);
+    const dd = trimmed.substring(4, 6);
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const mi = parseInt(mm, 10) - 1;
+    if (mi >= 0 && mi < 12) return `${months[mi]} ${parseInt(dd, 10)}, 20${yy}`;
+  }
+
+  return null;
+}
+
 /** Get contextual enrichment for a given field name and trimmed value */
 export function getContextualInfo(fieldName: string, value: string): string | null {
   if (fieldName === 'recordType') {
@@ -89,6 +129,11 @@ export function getContextualInfo(fieldName: string, value: string): string | nu
 
   if (fieldName.toLowerCase().includes('date') && value.length === 6) {
     return formatDate(value);
+  }
+
+  if (fieldName.toLowerCase().includes('time')) {
+    const fmt = formatTime(value);
+    return fmt ? `🕐 ${fmt}` : null;
   }
 
   return null;

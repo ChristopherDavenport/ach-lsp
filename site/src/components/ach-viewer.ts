@@ -1,64 +1,35 @@
 import { LitElement, html, css, nothing, type TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { recordTypeToFieldSpecs, type FieldSpec } from 'ach-ts/dist/fieldPositions.js';
+import {
+  recordTypeToFieldSpecs, type FieldSpec,
+  addenda02Fields, addenda05Fields,
+  addenda10Fields, addenda11Fields, addenda12Fields,
+  addenda13Fields, addenda14Fields, addenda15Fields,
+  addenda16Fields, addenda17Fields, addenda18Fields,
+  addenda98Fields, addenda99Fields,
+} from 'ach-ts/dist/fieldPositions.js';
 import { Reader } from 'ach-ts/dist/reader.js';
-import { FIELD_DESCRIPTIONS, getSecCodeForLine } from '../data/ach-data.js';
+// Side-effect import: registers batch subclasses so Reader validation works correctly
+import 'ach-ts/dist/batches/index.js';
+import { FIELD_DESCRIPTIONS, getSecCodeForLine, TOKEN_TYPES, getTokenType } from '../data/ach-data.js';
+
+const addendaFieldsByTypeCode: Record<string, FieldSpec[]> = {
+  '02': addenda02Fields, '05': addenda05Fields,
+  '10': addenda10Fields, '11': addenda11Fields, '12': addenda12Fields,
+  '13': addenda13Fields, '14': addenda14Fields, '15': addenda15Fields,
+  '16': addenda16Fields, '17': addenda17Fields, '18': addenda18Fields,
+  '98': addenda98Fields, '99': addenda99Fields,
+};
 import { getContextualInfo } from '../utils/field-enrichment.js';
-import { SAMPLE_ACH_FILE } from '../data/sample-ach.js';
+import { SAMPLE_ACH_FILE, SAMPLE_IAT_FILE } from '../data/sample-ach.js';
 import './ach-field-info.js';
 
-// Same 8 token types as the LSP semantic tokens
-const TOKEN_CLASSES = [
-  'tok-keyword',   // 0 - record type codes
-  'tok-number',    // 1 - amounts, counts, hashes
-  'tok-string',    // 2 - names, descriptions
-  'tok-type',      // 3 - SEC codes, addenda types
-  'tok-variable',  // 4 - routing numbers, account numbers
-  'tok-comment',   // 5 - padding lines
-  'tok-parameter', // 6 - dates, times
-  'tok-enum',      // 7 - transaction codes, service class codes
-];
+const TOKEN_CLASSES = TOKEN_TYPES.map(t => `tok-${t}`);
 
-function getTokenType(fieldName: string): number {
-  if (fieldName === 'recordType') return 0;
-  if (fieldName === 'immediateOrigin') return 3;
-  if (fieldName === 'immediateOriginName') return 6;
-  if (fieldName === 'batchCount') return 1;
-  if (fieldName === 'blockCount') return 7;
-  if (fieldName === 'entryAddendaCount' || fieldName === 'addendaRecords') return 6;
-  if (fieldName.includes('Hash') || fieldName.includes('hash')) return 4;
-  if (fieldName.includes('Debit') && fieldName.includes('Amount')) return 1;
-  if (fieldName.includes('Credit') && fieldName.includes('Amount')) return 3;
-  if (fieldName === 'amount') return 1;
-  if (fieldName.includes('Count') || fieldName.includes('count')) return 7;
-  if (fieldName.includes('Name') || fieldName.includes('name') ||
-      fieldName.includes('Description') || fieldName.includes('description') ||
-      fieldName.includes('Discretionary') || fieldName.includes('discretionary') ||
-      fieldName.includes('Information') || fieldName.includes('information') ||
-      fieldName.includes('Reserved') || fieldName.includes('reserved') ||
-      fieldName.includes('Reference') || fieldName.includes('reference') ||
-      fieldName.includes('Message') || fieldName.includes('message') ||
-      fieldName === 'paymentRelatedInformation') return 2;
-  if (fieldName === 'standardEntryClassCode' || fieldName === 'typeCode' ||
-      fieldName === 'addendaTypeCode') return 3;
-  if (fieldName.includes('Destination') || fieldName.includes('destination') ||
-      fieldName.includes('Origin') || fieldName.includes('origin') ||
-      fieldName === 'rdfiIdentification' || fieldName === 'odfiIdentification' ||
-      fieldName === 'dfiAccountNumber' || fieldName === 'checkDigit' ||
-      fieldName === 'companyIdentification' || fieldName === 'originatorIdentification' ||
-      fieldName === 'immediateDestination' || fieldName === 'immediateOrigin') return 4;
-  if (fieldName.includes('Date') || fieldName.includes('date') ||
-      fieldName.includes('Time') || fieldName.includes('time')) return 6;
-  if (fieldName === 'transactionCode' || fieldName === 'serviceClassCode' ||
-      fieldName === 'priorityCode' || fieldName === 'formatCode' ||
-      fieldName === 'addendaRecordIndicator' || fieldName === 'fileIDModifier' ||
-      fieldName === 'originatorStatusCode' || fieldName === 'recordSize' ||
-      fieldName === 'blockingFactor') return 7;
-  if (fieldName.includes('Trace') || fieldName.includes('trace') ||
-      fieldName.includes('Sequence') || fieldName.includes('sequence') ||
-      fieldName.includes('batchNumber') || fieldName === 'entryDetailSequenceNumber') return 1;
-  return 2;
-}
+const SAMPLES: { label: string; content: string }[] = [
+  { label: 'Standard (PPD/CCD)', content: SAMPLE_ACH_FILE },
+  { label: 'International (IAT)', content: SAMPLE_IAT_FILE },
+];
 
 interface FieldInfo {
   name: string;
@@ -75,7 +46,9 @@ interface FieldInfo {
 export class AchViewer extends LitElement {
   @property({ type: Boolean }) editable = false;
   @state() private _content = SAMPLE_ACH_FILE;
-  @state() private _tryItMode = false;
+  @state() private _sampleIndex = 0;
+  @state() private _editing = false;
+  @state() private _customContent = '';
   @state() private _selectedField: FieldInfo | null = null;
   @state() private _errors: string[] = [];
 
@@ -89,28 +62,48 @@ export class AchViewer extends LitElement {
       border-radius: 8px;
       overflow: hidden;
     }
-    .toolbar {
+    .tab-bar {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 0.5rem 1rem;
+      gap: 0;
       background: var(--color-bg);
       border-bottom: 1px solid var(--color-border);
       font-size: 0.8rem;
-      color: var(--color-text-muted);
+      padding: 0 0.5rem;
     }
-    .toolbar button {
-      background: var(--color-accent);
-      color: #fff;
-      border: none;
-      padding: 0.3rem 0.75rem;
-      border-radius: 4px;
+    .tab {
+      padding: 0.5rem 1rem;
       cursor: pointer;
+      color: var(--color-text-muted);
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+      user-select: none;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      font: inherit;
       font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
     }
-    .toolbar button:hover { opacity: 0.9; }
-    .toolbar button.active {
-      background: var(--color-error);
+    .tab:hover { color: var(--color-text); }
+    .tab.active {
+      color: var(--color-accent);
+      border-bottom-color: var(--color-accent);
+    }
+    .tab .edit-icon {
+      font-size: 0.75rem;
+      opacity: 0.6;
+      transition: opacity 0.15s;
+    }
+    .tab:hover .edit-icon, .tab.active .edit-icon { opacity: 1; }
+    .tab-bar .spacer { flex: 1; }
+    .tab-bar .meta {
+      color: var(--color-text-muted);
+      font-size: 0.75rem;
+      padding-right: 0.5rem;
     }
     .content-area {
       display: flex;
@@ -209,11 +202,29 @@ export class AchViewer extends LitElement {
     }
   `;
 
-  private _onTryItToggle() {
-    this._tryItMode = !this._tryItMode;
-    if (!this._tryItMode) {
-      this._content = SAMPLE_ACH_FILE;
+  private _selectTab(idx: number) {
+    this._sampleIndex = idx;
+    if (idx < SAMPLES.length) {
+      this._content = SAMPLES[idx].content;
+      this._editing = false;
       this._errors = [];
+    } else {
+      // Custom tab
+      this._content = this._customContent;
+      this._editing = !this._customContent;
+      if (this._customContent) this._parseAndValidate();
+    }
+    this._selectedField = null;
+  }
+
+  private _toggleEdit() {
+    if (this._editing) {
+      // Leaving edit mode → show syntax view
+      this._customContent = this._content;
+      this._editing = false;
+      this._parseAndValidate();
+    } else {
+      this._editing = true;
     }
     this._selectedField = null;
   }
@@ -253,10 +264,17 @@ export class AchViewer extends LitElement {
 
     const recordType = line.charAt(0);
     const secCode = getSecCodeForLine(lines, lineIdx);
-    const fields = recordTypeToFieldSpecs(recordType, {
-      secCode,
-      isADV: secCode === 'ADV',
-    });
+
+    let fields: FieldSpec[] | undefined;
+    if (recordType === '7') {
+      const typeCode = line.substring(1, 3);
+      fields = addendaFieldsByTypeCode[typeCode];
+    } else {
+      fields = recordTypeToFieldSpecs(recordType, {
+        secCode,
+        isADV: secCode === 'ADV',
+      });
+    }
 
     if (!fields || fields.length === 0) {
       return html`<span class="line">${line}</span>`;
@@ -300,14 +318,16 @@ export class AchViewer extends LitElement {
 
     return html`
       <div class="viewer-wrapper">
-        <div class="toolbar">
-          <span>sample.ach — ${lines.length} lines, 94 chars/line</span>
-          <button class=${this._tryItMode ? 'active' : ''} @click=${this._onTryItToggle}>
-            ${this._tryItMode ? '✕ Close editor' : '✎ Try your own ACH file'}
-          </button>
+        <div class="tab-bar">
+          ${SAMPLES.map((s, i) => html`
+            <button class="tab ${this._sampleIndex === i ? 'active' : ''}" @click=${() => this._selectTab(i)}>${s.label}</button>
+          `)}
+          <button class="tab ${this._sampleIndex >= SAMPLES.length ? 'active' : ''}" @click=${() => this._selectTab(SAMPLES.length)}>Custom${this._sampleIndex >= SAMPLES.length ? html`<span class="edit-icon" @click=${(e: Event) => { e.stopPropagation(); this._toggleEdit(); }} title=${this._editing ? 'View syntax' : 'Edit'}>${this._editing ? '✕' : '✎'}</span>` : nothing}</button>
+          <span class="spacer"></span>
+          <span class="meta">${lines.length} lines, 94 chars/line</span>
         </div>
 
-        ${this._tryItMode ? html`
+        ${this._editing ? html`
           <textarea
             .value=${this._content}
             @input=${this._onTextInput}

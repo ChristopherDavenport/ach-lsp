@@ -183,6 +183,141 @@ export const FILE_CONTROL_FIELDS: FieldDescription[] = [
   { name: 'Reserved', description: 'Reserved for future use (spaces)', format: '39 chars', start: 55, end: 94 },
 ];
 
+// --- IAT Addenda field descriptions (by addenda type code) ---
+
+export const ADDENDA_10_FIELDS: FieldDescription[] = [
+  { name: 'Record Type Code', description: 'Always "7" for Addenda', start: 0, end: 1 },
+  { name: 'Addenda Type Code', description: 'Always "10" for IAT Transaction Info', format: 'NN', start: 1, end: 3 },
+  { name: 'Transaction Type Code', description: 'Type of transaction (ANN, BUS, DEP, LOA, MIS, MOR, PEN, RLS, SAL, TAX)', format: 'AAA', start: 3, end: 6 },
+  { name: 'Foreign Payment Amount', description: 'Payment amount in foreign currency', format: '18 digits', start: 6, end: 24 },
+  { name: 'Foreign Trace Number', description: 'Trace number assigned by the foreign institution', format: '22 chars', start: 24, end: 46 },
+  { name: 'Name', description: 'Name associated with the transaction', format: '35 chars', start: 46, end: 81 },
+  { name: 'Reserved', description: 'Reserved for future use', format: '6 chars', start: 81, end: 87 },
+  { name: 'Entry Detail Sequence Number', description: 'Last 7 digits of the related entry trace number', format: 'NNNNNNN', start: 87, end: 94 },
+];
+
+export const ADDENDA_11_FIELDS: FieldDescription[] = [
+  { name: 'Record Type Code', description: 'Always "7" for Addenda', start: 0, end: 1 },
+  { name: 'Addenda Type Code', description: 'Always "11" for IAT Originator Name/Address', format: 'NN', start: 1, end: 3 },
+  { name: 'Originator Name', description: 'Name of the originator', format: '35 chars', start: 3, end: 38 },
+  { name: 'Originator Street Address', description: 'Street address of the originator', format: '35 chars', start: 38, end: 73 },
+  { name: 'Reserved', description: 'Reserved for future use', format: '14 chars', start: 73, end: 87 },
+  { name: 'Entry Detail Sequence Number', description: 'Last 7 digits of the related entry trace number', format: 'NNNNNNN', start: 87, end: 94 },
+];
+
+export const ADDENDA_12_FIELDS: FieldDescription[] = [
+  { name: 'Record Type Code', description: 'Always "7" for Addenda', start: 0, end: 1 },
+  { name: 'Addenda Type Code', description: 'Always "12" for IAT Originator City/Country', format: 'NN', start: 1, end: 3 },
+  { name: 'Originator City & State/Province', description: 'City and state/province of the originator', format: '35 chars', start: 3, end: 38 },
+  { name: 'Originator Country & Postal Code', description: 'Country and postal code of the originator', format: '35 chars', start: 38, end: 73 },
+  { name: 'Originator Date of Birth', description: 'Date of birth of the originator', format: 'YYYYMMDD (or spaces)', start: 73, end: 83 },
+  { name: 'Reserved', description: 'Reserved for future use', format: '4 chars', start: 83, end: 87 },
+  { name: 'Entry Detail Sequence Number', description: 'Last 7 digits of the related entry trace number', format: 'NNNNNNN', start: 87, end: 94 },
+];
+
+export const ADDENDA_13_FIELDS: FieldDescription[] = [
+  { name: 'Record Type Code', description: 'Always "7" for Addenda', start: 0, end: 1 },
+  { name: 'Addenda Type Code', description: 'Always "13" for IAT ODFI Information', format: 'NN', start: 1, end: 3 },
+  { name: 'ODFI Name', description: 'Name of the originating depository financial institution', format: '35 chars', start: 3, end: 38 },
+  { name: 'ODFI ID Number Qualifier', description: 'Qualifier (01=routing, 02=SWIFT, 03=CHIPS)', format: 'NN', start: 38, end: 40 },
+  { name: 'ODFI Identification', description: 'Identification number of the ODFI', format: '34 chars', start: 40, end: 74 },
+  { name: 'ODFI Branch Country Code', description: 'Country code of the ODFI branch', format: '3 chars', start: 74, end: 77 },
+  { name: 'Reserved', description: 'Reserved for future use', format: '10 chars', start: 77, end: 87 },
+  { name: 'Entry Detail Sequence Number', description: 'Last 7 digits of the related entry trace number', format: 'NNNNNNN', start: 87, end: 94 },
+];
+
+export const ADDENDA_14_FIELDS: FieldDescription[] = [
+  { name: 'Record Type Code', description: 'Always "7" for Addenda', start: 0, end: 1 },
+  { name: 'Addenda Type Code', description: 'Always "14" for IAT RDFI Information', format: 'NN', start: 1, end: 3 },
+  { name: 'RDFI Name', description: 'Name of the receiving depository financial institution', format: '35 chars', start: 3, end: 38 },
+  { name: 'RDFI ID Number Qualifier', description: 'Qualifier (01=routing, 02=SWIFT, 03=CHIPS)', format: 'NN', start: 38, end: 40 },
+  { name: 'RDFI Identification', description: 'Identification number of the RDFI', format: '34 chars', start: 40, end: 74 },
+  { name: 'RDFI Branch Country Code', description: 'Country code of the RDFI branch', format: '3 chars', start: 74, end: 77 },
+  { name: 'Reserved', description: 'Reserved for future use', format: '10 chars', start: 77, end: 87 },
+  { name: 'Entry Detail Sequence Number', description: 'Last 7 digits of the related entry trace number', format: 'NNNNNNN', start: 87, end: 94 },
+];
+
+export const ADDENDA_15_FIELDS: FieldDescription[] = [
+  { name: 'Record Type Code', description: 'Always "7" for Addenda', start: 0, end: 1 },
+  { name: 'Addenda Type Code', description: 'Always "15" for IAT Receiver Identification', format: 'NN', start: 1, end: 3 },
+  { name: 'Receiver ID Number', description: 'Identification number of the receiver', format: '15 chars', start: 3, end: 18 },
+  { name: 'Receiver Street Address', description: 'Street address of the receiver', format: '35 chars', start: 18, end: 53 },
+  { name: 'Reserved', description: 'Reserved for future use', format: '34 chars', start: 53, end: 87 },
+  { name: 'Entry Detail Sequence Number', description: 'Last 7 digits of the related entry trace number', format: 'NNNNNNN', start: 87, end: 94 },
+];
+
+export const ADDENDA_16_FIELDS: FieldDescription[] = [
+  { name: 'Record Type Code', description: 'Always "7" for Addenda', start: 0, end: 1 },
+  { name: 'Addenda Type Code', description: 'Always "16" for IAT Receiver Address', format: 'NN', start: 1, end: 3 },
+  { name: 'Receiver City & State/Province', description: 'City and state/province of the receiver', format: '35 chars', start: 3, end: 38 },
+  { name: 'Receiver Country & Postal Code', description: 'Country and postal code of the receiver', format: '35 chars', start: 38, end: 73 },
+  { name: 'Receiver Date of Birth', description: 'Date of birth of the receiver', format: 'YYYYMMDD (or spaces)', start: 73, end: 83 },
+  { name: 'Reserved', description: 'Reserved for future use', format: '4 chars', start: 83, end: 87 },
+  { name: 'Entry Detail Sequence Number', description: 'Last 7 digits of the related entry trace number', format: 'NNNNNNN', start: 87, end: 94 },
+];
+
+export const ADDENDA_17_FIELDS: FieldDescription[] = [
+  { name: 'Record Type Code', description: 'Always "7" for Addenda', start: 0, end: 1 },
+  { name: 'Addenda Type Code', description: 'Always "17" for IAT Remittance Information', format: 'NN', start: 1, end: 3 },
+  { name: 'Payment Related Information', description: 'Free-form remittance data', format: '80 chars', start: 3, end: 83 },
+  { name: 'Sequence Number', description: 'Sequence number within the entry', format: 'NNNN', start: 83, end: 87 },
+  { name: 'Entry Detail Sequence Number', description: 'Last 7 digits of the related entry trace number', format: 'NNNNNNN', start: 87, end: 94 },
+];
+
+export const ADDENDA_18_FIELDS: FieldDescription[] = [
+  { name: 'Record Type Code', description: 'Always "7" for Addenda', start: 0, end: 1 },
+  { name: 'Addenda Type Code', description: 'Always "18" for Foreign Correspondent Bank', format: 'NN', start: 1, end: 3 },
+  { name: 'Foreign Correspondent Bank Name', description: 'Name of the foreign correspondent bank', format: '35 chars', start: 3, end: 38 },
+  { name: 'Foreign Bank ID Qualifier', description: 'Qualifier (01=routing, 02=SWIFT, 03=CHIPS)', format: 'NN', start: 38, end: 40 },
+  { name: 'Foreign Correspondent Bank ID', description: 'Identification number of the foreign correspondent bank', format: '34 chars', start: 40, end: 74 },
+  { name: 'Foreign Bank Branch Country Code', description: 'Country code of the foreign correspondent bank branch', format: '3 chars', start: 74, end: 77 },
+  { name: 'Reserved', description: 'Reserved for future use', format: '6 chars', start: 77, end: 83 },
+  { name: 'Sequence Number', description: 'Sequence number within the entry', format: 'NNNN', start: 83, end: 87 },
+  { name: 'Entry Detail Sequence Number', description: 'Last 7 digits of the related entry trace number', format: 'NNNNNNN', start: 87, end: 94 },
+];
+
+export const ADDENDA_98_FIELDS: FieldDescription[] = [
+  { name: 'Record Type Code', description: 'Always "7" for Addenda', start: 0, end: 1 },
+  { name: 'Addenda Type Code', description: 'Always "98" for Notification of Change', format: 'NN', start: 1, end: 3 },
+  { name: 'Change Code', description: 'Code identifying the type of change (C01–C14, C61–C69)', format: 'CNN', start: 3, end: 6 },
+  { name: 'Original Trace Number', description: 'Trace number of the original entry', format: '15 digits', start: 6, end: 21 },
+  { name: 'Reserved', description: 'Reserved for future use', format: '6 chars', start: 21, end: 27 },
+  { name: 'Original RDFI Identification', description: 'Routing number of the original receiving DFI', format: 'NNNNNNNN', start: 27, end: 35 },
+  { name: 'Corrected Data', description: 'Corrected information for the field identified by the change code', format: '29 chars', start: 35, end: 64 },
+  { name: 'IAT Corrected Data', description: 'Additional corrected data for IAT entries', format: '6 chars', start: 64, end: 70 },
+  { name: 'Reserved', description: 'Reserved for future use', format: '9 chars', start: 70, end: 79 },
+  { name: 'Trace Number', description: 'Unique identifier for this addenda record', format: '15 digits', start: 79, end: 94 },
+];
+
+export const ADDENDA_99_FIELDS: FieldDescription[] = [
+  { name: 'Record Type Code', description: 'Always "7" for Addenda', start: 0, end: 1 },
+  { name: 'Addenda Type Code', description: 'Always "99" for Return', format: 'NN', start: 1, end: 3 },
+  { name: 'Return Reason Code', description: 'Code identifying the reason for the return (R01–R85)', format: 'RNN', start: 3, end: 6 },
+  { name: 'Original Trace Number', description: 'Trace number of the original entry being returned', format: '15 digits', start: 6, end: 21 },
+  { name: 'Date of Death', description: 'Date of death for DNE entries, or spaces', format: 'YYMMDD', start: 21, end: 27 },
+  { name: 'Original RDFI Identification', description: 'Routing number of the original receiving DFI', format: 'NNNNNNNN', start: 27, end: 35 },
+  { name: 'Addenda Information', description: 'Additional return information', format: '44 chars', start: 35, end: 79 },
+  { name: 'Trace Number', description: 'Unique identifier for this return addenda', format: '15 digits', start: 79, end: 94 },
+];
+
+export const ADV_ENTRY_DETAIL_FIELDS: FieldDescription[] = [
+  { name: 'Record Type Code', description: 'Always "6" for Entry Detail', start: 0, end: 1 },
+  { name: 'Transaction Code', description: 'ADV transaction code (81–88)', format: 'NN', start: 1, end: 3 },
+  { name: 'RDFI Identification', description: 'First 8 digits of the receiving bank routing number', format: 'NNNNNNNN', start: 3, end: 11 },
+  { name: 'Check Digit', description: 'Routing number check digit', format: 'N', start: 11, end: 12 },
+  { name: 'DFI Account Number', description: "Receiver's account number at the RDFI", format: '15 chars', start: 12, end: 27 },
+  { name: 'Amount', description: 'Advisory amount in cents', format: '12 digits', start: 27, end: 39 },
+  { name: 'Advice Routing Number', description: 'Routing number for the advice', format: '9 digits', start: 39, end: 48 },
+  { name: 'File Identification', description: 'File identification for the ADV entry', format: '5 chars', start: 48, end: 53 },
+  { name: 'ACH Operator Data', description: 'Data for the ACH Operator', format: '1 char', start: 53, end: 54 },
+  { name: 'Individual Name', description: "Receiver's name", format: '22 chars', start: 54, end: 76 },
+  { name: 'Discretionary Data', description: 'Optional data for originator use', format: '2 chars', start: 76, end: 78 },
+  { name: 'Addenda Record Indicator', description: '0=no addenda, 1=has addenda records', format: 'N', start: 78, end: 79 },
+  { name: 'ACH Operator Routing Number', description: 'Routing number of the ACH Operator', format: '8 chars', start: 79, end: 87 },
+  { name: 'Julian Day', description: 'Day of the year (001–366)', format: 'NNN', start: 87, end: 90 },
+  { name: 'Sequence Number', description: 'Sequence number within the batch', format: 'NNNN', start: 90, end: 94 },
+];
+
 /** Get field descriptions for a given record type character */
 function getFieldsForRecordType(recordType: string): FieldDescription[] {
   switch (recordType) {

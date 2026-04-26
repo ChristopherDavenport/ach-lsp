@@ -1,5 +1,6 @@
 import { LitElement, html, css, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { getFormattedValue } from '../utils/field-enrichment.js';
 
 interface FieldInfo {
   name: string;
@@ -72,6 +73,12 @@ export class AchFieldInfo extends LitElement {
       font-family: var(--font-mono);
       font-size: 0.78rem;
     }
+    .formatted {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--color-accent);
+      padding: 0.3rem 0;
+    }
   `;
 
   render() {
@@ -100,6 +107,7 @@ export class AchFieldInfo extends LitElement {
         <div class="row">
           <div class="label">Value</div>
           <div class="value">${f.value}</div>
+          ${(() => { const fmt = getFormattedValue(f.name, f.value, f.format); return fmt ? html`<div class="formatted">${fmt}</div>` : nothing; })()}
         </div>
 
         <div class="row">

@@ -68,6 +68,18 @@ export class PageFeatures extends LitElement {
       </section>
 
       <section>
+        <h2><span class="icon">🏷️</span>Inlay Hints</h2>
+        <p>Cursor-position-aware field labels displayed inline as you navigate the file:</p>
+        <ul>
+          <li><strong>Multi-cursor support</strong> — all cursors receive hints simultaneously</li>
+          <li><strong>Smart conversions</strong> — amounts shown as dollars ($1,234.56), dates formatted (2026-04-25), routing numbers validated (✓/⚠), codes decoded to descriptions</li>
+          <li><strong>Compact labels</strong> — abbreviated field names like "Dest RTN", "Amt", "Batch #" keep the editor uncluttered</li>
+          <li><strong>Toggle</strong> — Ctrl+Alt+H (Cmd+Alt+H on Mac) to show/hide</li>
+        </ul>
+        <div class="screenshot"><screenshot-placeholder label="Inlay Hints: field labels at cursor position with amount conversion"></screenshot-placeholder></div>
+      </section>
+
+      <section>
         <h2><span class="icon">📐</span>Formatting</h2>
         <p>Format entire ACH files to proper 94-character fixed-width format using the <code>ach-ts</code> Writer. Only formats files that parse without errors to prevent data corruption.</p>
         <div class="screenshot"><screenshot-placeholder label="Format Document: before and after" aspect="4/3"></screenshot-placeholder></div>
@@ -107,7 +119,38 @@ export class PageFeatures extends LitElement {
           <li><strong>Parameter</strong> — dates, times</li>
           <li><strong>Enum</strong> — transaction codes, service class codes</li>
         </ul>
-        <div class="screenshot"><screenshot-placeholder label="Semantic Highlighting: color-coded ACH file"></screenshot-placeholder></div>
+        <p>Adjacency-aware coloring ensures no two neighboring fields share the same color. Over 80 field-specific overrides have been tuned across every record type:</p>
+        <ul>
+          <li><strong>Standard records</strong> — file header date/time adjacencies, batch header routing streaks, entry detail check digit vs. RDFI coloring</li>
+          <li><strong>IAT batches</strong> — foreign exchange indicator fields, originator/receiver names, bank qualifiers, and country codes all get distinct colors</li>
+          <li><strong>ADV entries</strong> — advice routing numbers, ACH operator data, and Julian day fields are differentiated</li>
+          <li><strong>Addenda records</strong> — per-type overrides for terminal info (02), payment data (05), IAT addenda (10–18), NOC change codes (98), and return codes (99)</li>
+        </ul>
+        <p>The interactive viewer on the home page uses the same token mapping, so you can see the adjacency-aware coloring in action.</p>
+        <div class="screenshot"><screenshot-placeholder label="Semantic Highlighting: color-coded ACH file with adjacency-aware coloring"></screenshot-placeholder></div>
+      </section>
+
+      <section>
+        <h2><span class="icon">🦓</span>Field Decorations</h2>
+        <p>Zebra-striped alternating backgrounds visually separate the fixed-width fields on each line:</p>
+        <ul>
+          <li>Alternating subtle gray backgrounds highlight field boundaries</li>
+          <li>Makes it easy to see where one field ends and the next begins in 94-character lines</li>
+          <li>Toggle via the <code>ach.fieldSeparators</code> setting (on by default)</li>
+        </ul>
+        <div class="screenshot"><screenshot-placeholder label="Field Decorations: zebra-striped field backgrounds" aspect="4/3"></screenshot-placeholder></div>
+      </section>
+
+      <section>
+        <h2><span class="icon">⌨️</span>Field Navigation</h2>
+        <p>8 keyboard shortcuts for semantic navigation through ACH records:</p>
+        <ul>
+          <li><strong>Field-level</strong> — Ctrl+Left/Right (Alt on Mac) to jump between field boundaries</li>
+          <li><strong>Section-level</strong> — Ctrl+Up/Down (Alt on Mac) to jump between batches, entries, and sections</li>
+          <li><strong>Selection</strong> — add Shift to extend selection to field or section boundaries</li>
+          <li><strong>Multi-cursor</strong> — all commands work with multiple cursors simultaneously</li>
+        </ul>
+        <div class="screenshot"><screenshot-placeholder label="Field Navigation: jumping between fields with keyboard shortcuts" aspect="4/3"></screenshot-placeholder></div>
       </section>
 
       <section>
@@ -126,7 +169,26 @@ export class PageFeatures extends LitElement {
       <section>
         <h2><span class="icon">🌲</span>ACH Explorer Tree View</h2>
         <p>Dedicated sidebar view that displays the full ACH file structure as a tree. Click any node to jump to that line in the editor. Automatically refreshes when the file changes.</p>
+        <ul>
+          <li><strong>IAT batches</strong> — labeled as "Batch N (IAT)" with addenda 10–18, 98, 99 shown as child nodes</li>
+          <li><strong>Fallback parsing</strong> — regex-based text parsing ensures the tree works even with partial or malformed files</li>
+        </ul>
         <div class="screenshot"><screenshot-placeholder label="ACH Explorer: sidebar tree with batch/entry/addenda nodes" aspect="4/3"></screenshot-placeholder></div>
+      </section>
+
+      <section>
+        <h2><span class="icon">👁️</span>Structured Preview</h2>
+        <p>A side panel that displays a structured, human-readable view of the ACH file:</p>
+        <ul>
+          <li><strong>Hierarchical view</strong> — file header → batches → entries → addenda with enriched field values</li>
+          <li><strong>Bi-directional sync</strong> — edits in the preview apply to the text editor and vice versa</li>
+          <li><strong>Inline editing</strong> — double-click any field to edit its value with appropriate input controls</li>
+          <li><strong>Search</strong> — query across all parsed fields</li>
+          <li><strong>Diff view</strong> — compare original vs. modified content</li>
+          <li><strong>Diagnostics overlay</strong> — validation errors from the server shown inline</li>
+          <li><strong>Auto-open</strong> — opens automatically when ACH files are opened (configurable via <code>ach.autoOpenPreview</code>), or toggle with Ctrl+Shift+V</li>
+        </ul>
+        <div class="screenshot"><screenshot-placeholder label="Structured Preview: hierarchical view with field editing"></screenshot-placeholder></div>
       </section>
     `;
   }

@@ -90,12 +90,16 @@ export class PageHome extends LitElement {
         <feature-card icon="🔍" heading="Real-time Validation" description="Validates check digits, entry hashes, debit/credit totals, record counts, and field formats as you type."></feature-card>
         <feature-card icon="💡" heading="Smart Completions" description="Context-aware suggestions for record templates, SEC codes, transaction codes, service class codes, and addenda types."></feature-card>
         <feature-card icon="📖" heading="Hover Documentation" description="Hover over any field to see its name, description, format, and contextual info like formatted amounts and routing validation."></feature-card>
+        <feature-card icon="🏷️" heading="Inlay Hints" description="Cursor-aware field labels with smart conversions: amounts to dollars, dates formatted, routing numbers validated, codes decoded."></feature-card>
         <feature-card icon="📐" heading="Formatting" description="Format entire ACH files to standard 94-character width with proper field alignment."></feature-card>
         <feature-card icon="🔧" heading="Code Actions" description="Quick fixes: correct check digits, pad lines to 94 characters, and set record size fields."></feature-card>
         <feature-card icon="📁" heading="Code Folding" description="Collapse batches and entry+addenda groups for easier navigation of large files."></feature-card>
         <feature-card icon="🎨" heading="Semantic Highlighting" description="8 distinct token types color-code record types, amounts, names, routing numbers, dates, and codes."></feature-card>
+        <feature-card icon="🦓" heading="Field Decorations" description="Zebra-striped alternating backgrounds visually separate fixed-width fields at a glance."></feature-card>
+        <feature-card icon="⌨️" heading="Field Navigation" description="Jump between fields and sections with keyboard shortcuts. Multi-cursor aware with selection support."></feature-card>
         <feature-card icon="🗂️" heading="Document Symbols" description="Hierarchical outline showing file structure with batches, entries, and addenda."></feature-card>
         <feature-card icon="🌲" heading="ACH Explorer" description="Sidebar tree view for navigating file structure with click-to-jump."></feature-card>
+        <feature-card icon="👁️" heading="Structured Preview" description="Side panel with structured view, inline editing, search, diff, and bi-directional editor sync."></feature-card>
       </div>
     `;
   }
