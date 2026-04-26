@@ -76,7 +76,7 @@ export class PageHome extends LitElement {
       <section class="hero">
         <h1><span>ACH</span> Language Support</h1>
         <p class="tagline">IDE-like intelligence for NACHA ACH files. Real-time validation, smart completions, hover documentation, formatting, and more.</p>
-        <a class="install-badge" href="https://marketplace.visualstudio.com/" target="_blank" rel="noopener">Install from VS Code Marketplace</a>
+        <a class="install-badge" href="https://marketplace.visualstudio.com/items?itemName=ChristopherDavenport.ach-lsp" target="_blank" rel="noopener">Install from VS Code Marketplace</a>
       </section>
 
       <section class="viewer-section">
