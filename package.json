@@ -326,6 +326,25 @@
         "title": "Select to Previous Section",
         "category": "ACH",
         "enablement": "editorLangId == ach"
+      },
+      {
+        "command": "ach.selectField",
+        "title": "Select Field",
+        "category": "ACH",
+        "enablement": "editorLangId == ach"
+      },
+      {
+        "command": "ach.copyFieldValue",
+        "title": "Copy Field Value",
+        "category": "ACH",
+        "enablement": "editorLangId == ach"
+      },
+      {
+        "command": "ach.toggleFieldSeparators",
+        "title": "Toggle Field Separators",
+        "category": "ACH",
+        "icon": "$(symbol-number)",
+        "enablement": "editorLangId == ach"
       }
     ],
     "menus": {
@@ -334,6 +353,28 @@
           "command": "ach.openPreview",
           "when": "resourceLangId == ach",
           "group": "navigation"
+        },
+        {
+          "command": "ach.toggleFieldSeparators",
+          "when": "resourceLangId == ach",
+          "group": "navigation"
+        },
+        {
+          "command": "ach.toggleInlayHints",
+          "when": "resourceLangId == ach",
+          "group": "1_ach"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "ach.selectField",
+          "when": "editorLangId == ach",
+          "group": "ach@1"
+        },
+        {
+          "command": "ach.copyFieldValue",
+          "when": "editorLangId == ach",
+          "group": "ach@2"
         }
       ]
     },
@@ -402,7 +443,9 @@
     "configurationDefaults": {
       "[ach]": {
         "editor.inlayHints.enabled": "on",
-        "editor.rulers": [94]
+        "editor.rulers": [94],
+        "editor.stickyScroll.enabled": true,
+        "editor.stickyScroll.defaultModel": "outlineModel"
       },
       "editor.tokenColorCustomizations": {
         "textMateRules": [
@@ -415,7 +458,67 @@
           }
         ]
       }
-    }
+    },
+    "snippets": [
+      {
+        "language": "ach",
+        "path": "./snippets/ach.json"
+      }
+    ],
+    "walkthroughs": [
+      {
+        "id": "ach.gettingStarted",
+        "title": "Getting Started with ACH",
+        "description": "Learn how to work with ACH/NACHA files in VS Code.",
+        "steps": [
+          {
+            "id": "openFile",
+            "title": "Open an ACH File",
+            "description": "Open any `.ach` file to activate syntax highlighting, diagnostics, and the ACH Explorer.\n\n[Open a File](command:workbench.action.files.openFile)",
+            "media": {
+              "altText": "Open an ACH file",
+              "markdown": "walkthroughs/open-file.md"
+            }
+          },
+          {
+            "id": "exploreStructure",
+            "title": "Explore File Structure",
+            "description": "Use the **ACH Explorer** panel in the sidebar to see the hierarchical structure of your file — batches, entries, and addenda records.\n\n[Show ACH Explorer](command:achExplorer.focus)",
+            "media": {
+              "altText": "ACH Explorer tree view",
+              "markdown": "walkthroughs/explore-structure.md"
+            }
+          },
+          {
+            "id": "navigateFields",
+            "title": "Navigate Between Fields",
+            "description": "Use `Ctrl+Right` / `Ctrl+Left` to jump between fields, and `Ctrl+Down` / `Ctrl+Up` to jump between sections.\n\nHover over any field to see its name, description, and column range.",
+            "media": {
+              "altText": "Field navigation",
+              "markdown": "walkthroughs/navigate-fields.md"
+            }
+          },
+          {
+            "id": "openPreview",
+            "title": "Open the Preview Panel",
+            "description": "View a structured, human-readable representation of your ACH file with field labels and values.\n\n[Open Preview](command:ach.openPreview)",
+            "media": {
+              "altText": "ACH Preview panel",
+              "markdown": "walkthroughs/open-preview.md"
+            }
+          },
+          {
+            "id": "configureValidation",
+            "title": "Configure Validation",
+            "description": "Customize which validation rules to apply. Search for `ach.validation` in Settings to toggle individual checks.\n\n[Open Settings](command:workbench.action.openSettings?%22ach.validation%22)",
+            "media": {
+              "altText": "Validation settings",
+              "markdown": "walkthroughs/configure-validation.md"
+            }
+          }
+        ]
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
