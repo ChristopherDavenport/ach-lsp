@@ -238,6 +238,13 @@
           "default": false,
           "description": "Skip company name/ID validation in batch headers."
         },
+        "ach.validation.unequalBlockCounts": {
+          "order": 32,
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Skip block count (blocking factor) validation."
+        },
         "ach.fieldSeparators": {
           "order": 3,
           "scope": "resource",
@@ -374,6 +381,20 @@
         "title": "Merge ACH Files",
         "category": "ACH",
         "icon": "$(merge)"
+      },
+      {
+        "command": "ach.splitFile",
+        "title": "Split ACH File",
+        "category": "ACH",
+        "icon": "$(split-horizontal)",
+        "enablement": "editorLangId == ach"
+      },
+      {
+        "command": "ach.splitFileByGroup",
+        "title": "Split ACH File by Group",
+        "category": "ACH",
+        "icon": "$(group-by-ref-type)",
+        "enablement": "editorLangId == ach"
       }
     ],
     "menus": {

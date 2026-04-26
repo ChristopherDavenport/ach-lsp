@@ -14,6 +14,7 @@ import { ValidateOpts, fileFromJSON, writeFile, Reader } from 'ach-ts';
 import { parseDocument, parseDocumentImmediate, removeDocument, getDocument } from './achDocument';
 import type { ACHDocumentState } from './achDocument';
 import { mergeAchContents } from './merge';
+import { splitAchContent } from './split';
 import { computeDiagnostics } from './diagnostics';
 import { provideHover } from './hover';
 import { provideCompletion, resolveCompletion } from './completion';
@@ -335,6 +336,11 @@ connection.onRequest('ach/importJson', (params: { json: string }) => {
 // Custom request: merge multiple ACH file contents into one
 connection.onRequest('ach/mergeFiles', (params: { contents: string[] }) => {
   return mergeAchContents(params.contents);
+});
+
+// Custom request: split an ACH file by conditions or grouping
+connection.onRequest('ach/splitFile', (params: { content: string; mode: string; conditions?: object }) => {
+  return splitAchContent(params as Parameters<typeof splitAchContent>[0]);
 });
 
 documents.listen(connection);
