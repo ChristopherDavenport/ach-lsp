@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ACH Language Support — VS Code Extension</title>
+  <meta name="description" content="IDE-like intelligence for NACHA ACH files. Real-time validation, smart completions, hover docs, formatting, and more." />
+  <meta property="og:title" content="ACH Language Support" />
+  <meta property="og:description" content="VS Code extension for NACHA ACH files — validation, completions, hover, formatting, code actions." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💳</text></svg>" />
+  <style>
+    :root {
+      --color-bg: #1e1e1e;
+      --color-surface: #252526;
+      --color-surface-hover: #2a2d2e;
+      --color-border: #3c3c3c;
+      --color-text: #cccccc;
+      --color-text-muted: #808080;
+      --color-text-bright: #e0e0e0;
+      --color-accent: #569cd6;
+      --color-accent-hover: #6cb0f0;
+      --color-keyword: #569cd6;
+      --color-number: #b5cea8;
+      --color-string: #ce9178;
+      --color-type: #4ec9b0;
+      --color-variable: #9cdcfe;
+      --color-comment: #6a9955;
+      --color-parameter: #dcdcaa;
+      --color-enum: #d4d4d4;
+      --color-error: #f44747;
+      --color-warning: #cca700;
+      --color-success: #6a9955;
+      --font-mono: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --max-width: 1200px;
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --color-bg: #ffffff;
+        --color-surface: #f3f3f3;
+        --color-surface-hover: #e8e8e8;
+        --color-border: #d4d4d4;
+        --color-text: #1e1e1e;
+        --color-text-muted: #616161;
+        --color-text-bright: #000000;
+        --color-accent: #0066b8;
+        --color-accent-hover: #005a9e;
+        --color-keyword: #0000ff;
+        --color-number: #098658;
+        --color-string: #a31515;
+        --color-type: #267f99;
+        --color-variable: #001080;
+        --color-comment: #008000;
+        --color-parameter: #795e26;
+        --color-enum: #0070c1;
+        --color-error: #e51400;
+        --color-warning: #bf8803;
+        --color-success: #008000;
+      }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <app-shell></app-shell>
+  <script type="module" src="/src/app-shell.ts"></script>
+</body>
+</html>

@@ -1,0 +1,376 @@
+{
+  "name": "ach-lsp",
+  "displayName": "ACH Language Support",
+  "description": "Language server and editing support for NACHA ACH files",
+  "version": "0.1.0",
+  "publisher": "christopherdavenport",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/christopherdavenport/ach-lsp"
+  },
+  "homepage": "https://github.com/christopherdavenport/ach-lsp#readme",
+  "bugs": {
+    "url": "https://github.com/christopherdavenport/ach-lsp/issues"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters",
+    "Formatters"
+  ],
+  "keywords": [
+    "ach",
+    "nacha",
+    "banking",
+    "payments",
+    "eft"
+  ],
+  "activationEvents": [],
+  "main": "./client/out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "ach",
+        "aliases": [
+          "ACH",
+          "NACHA"
+        ],
+        "extensions": [
+          ".ach"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "ach",
+        "scopeName": "source.ach",
+        "path": "./syntaxes/ach.tmLanguage.json"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "ACH",
+      "properties": {
+        "ach.maxNumberOfProblems": {
+          "scope": "resource",
+          "type": "number",
+          "default": 1000,
+          "description": "Controls the maximum number of problems produced by the server."
+        },
+        "ach.trace.server": {
+          "scope": "window",
+          "type": "string",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "default": "off",
+          "description": "Traces the communication between VS Code and the ACH language server."
+        },
+        "ach.validation.skipAll": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Disable all validation."
+        },
+        "ach.validation.allowZeroBatches": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Allow files with no batches."
+        },
+        "ach.validation.customTraceNumbers": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Allow trace numbers that don't match ODFI."
+        },
+        "ach.validation.requireABAOrigin": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Require valid ABA routing number as origin."
+        },
+        "ach.validation.bypassOriginValidation": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Skip origin field validation."
+        },
+        "ach.validation.bypassDestinationValidation": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Skip destination field validation."
+        },
+        "ach.validation.allowMissingFileHeader": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Allow files without a FileHeader record."
+        },
+        "ach.validation.allowMissingFileControl": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Allow files without a FileControl record."
+        },
+        "ach.validation.bypassCompanyIdentificationMatch": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Skip batch header/control company ID match."
+        },
+        "ach.validation.customReturnCodes": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Allow non-standard return codes in Addenda99."
+        },
+        "ach.validation.unequalServiceClassCode": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Allow mismatched service class codes."
+        },
+        "ach.validation.allowUnorderedBatchNumbers": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Allow non-ascending batch numbers."
+        },
+        "ach.validation.allowInvalidCheckDigit": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Skip routing number check digit validation."
+        },
+        "ach.validation.unequalAddendaCounts": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Allow addenda count mismatches."
+        },
+        "ach.validation.preserveSpaces": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Retain trailing whitespace during parsing."
+        },
+        "ach.validation.allowInvalidAmounts": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Allow malformed amount fields."
+        },
+        "ach.validation.allowZeroEntryAmount": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Allow entries with zero dollar amounts."
+        },
+        "ach.validation.allowSpecialCharacters": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Allow non-alphanumeric characters in fields."
+        },
+        "ach.validation.allowEmptyIndividualName": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Allow blank individual name fields."
+        },
+        "ach.validation.bypassBatchValidation": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Skip all batch-level validation."
+        },
+        "ach.validation.skipFileCreationValidation": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Skip file creation date validation."
+        },
+        "ach.validation.skipBatchHeaderCompanyValidation": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Skip company name/ID validation in batch headers."
+        },
+        "ach.fieldSeparators": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": true,
+          "description": "Show visual separators between fields in the editor."
+        },
+        "ach.autoOpenPreview": {
+          "scope": "window",
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically open the ACH Preview panel when opening an ACH file."
+        }
+      }
+    },
+    "views": {
+      "explorer": [
+        {
+          "id": "achExplorer",
+          "name": "ACH Explorer",
+          "when": "resourceLangId == ach"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "ach.openPreview",
+        "title": "ACH: Open Preview",
+        "icon": "$(open-preview-to-side)"
+      },
+      {
+        "command": "ach.toggleInlayHints",
+        "title": "ACH: Toggle Inlay Hints"
+      },
+      {
+        "command": "ach.cursorFieldRight",
+        "title": "ACH: Move Cursor to Next Field"
+      },
+      {
+        "command": "ach.cursorFieldLeft",
+        "title": "ACH: Move Cursor to Previous Field"
+      },
+      {
+        "command": "ach.cursorFieldRightSelect",
+        "title": "ACH: Select to Next Field"
+      },
+      {
+        "command": "ach.cursorFieldLeftSelect",
+        "title": "ACH: Select to Previous Field"
+      },
+      {
+        "command": "ach.cursorSectionDown",
+        "title": "ACH: Move to Next Section"
+      },
+      {
+        "command": "ach.cursorSectionUp",
+        "title": "ACH: Move to Previous Section"
+      },
+      {
+        "command": "ach.cursorSectionDownSelect",
+        "title": "ACH: Select to Next Section"
+      },
+      {
+        "command": "ach.cursorSectionUpSelect",
+        "title": "ACH: Select to Previous Section"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "ach.openPreview",
+          "when": "resourceLangId == ach",
+          "group": "navigation"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "ach.openPreview",
+        "key": "ctrl+shift+v",
+        "mac": "cmd+shift+v",
+        "when": "resourceLangId == ach"
+      },
+      {
+        "command": "ach.cursorFieldRight",
+        "key": "ctrl+right",
+        "mac": "alt+right",
+        "when": "editorLangId == ach && editorTextFocus"
+      },
+      {
+        "command": "ach.cursorFieldLeft",
+        "key": "ctrl+left",
+        "mac": "alt+left",
+        "when": "editorLangId == ach && editorTextFocus"
+      },
+      {
+        "command": "ach.cursorFieldRightSelect",
+        "key": "ctrl+shift+right",
+        "mac": "alt+shift+right",
+        "when": "editorLangId == ach && editorTextFocus"
+      },
+      {
+        "command": "ach.cursorFieldLeftSelect",
+        "key": "ctrl+shift+left",
+        "mac": "alt+shift+left",
+        "when": "editorLangId == ach && editorTextFocus"
+      },
+      {
+        "command": "ach.cursorSectionDown",
+        "key": "ctrl+down",
+        "mac": "alt+down",
+        "when": "editorLangId == ach && editorTextFocus"
+      },
+      {
+        "command": "ach.cursorSectionUp",
+        "key": "ctrl+up",
+        "mac": "alt+up",
+        "when": "editorLangId == ach && editorTextFocus"
+      },
+      {
+        "command": "ach.cursorSectionDownSelect",
+        "key": "ctrl+shift+down",
+        "mac": "alt+shift+down",
+        "when": "editorLangId == ach && editorTextFocus"
+      },
+      {
+        "command": "ach.cursorSectionUpSelect",
+        "key": "ctrl+shift+up",
+        "mac": "alt+shift+up",
+        "when": "editorLangId == ach && editorTextFocus"
+      },
+      {
+        "command": "ach.toggleInlayHints",
+        "key": "ctrl+alt+h",
+        "mac": "cmd+alt+h",
+        "when": "editorLangId == ach && editorTextFocus"
+      }
+    ],
+    "configurationDefaults": {
+      "[ach]": {
+        "editor.inlayHints.enabled": "on",
+        "editor.rulers": [94]
+      },
+      "editor.tokenColorCustomizations": {
+        "textMateRules": [
+          {
+            "scope": "comment.line.padding.ach",
+            "settings": {
+              "foreground": "#80808050",
+              "fontStyle": ""
+            }
+          }
+        ]
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "lint": "eslint ./client/src ./server/src --ext .ts",
+    "postinstall": "cd client && npm install && cd ../server && npm install",
+    "test": "cd server && npm test",
+    "package": "npx @vscode/vsce package"
+  },
+  "devDependencies": {
+    "esbuild": "^0.21.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.5.0"
+  }
+}

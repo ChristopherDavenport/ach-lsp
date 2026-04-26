@@ -1,0 +1,17 @@
+{
+  "name": "ach-lsp-server",
+  "private": true,
+  "version": "0.1.0",
+  "dependencies": {
+    "ach-ts": "0.0.2",
+    "vscode-languageserver": "^9.0.0",
+    "vscode-languageserver-textdocument": "^1.0.0"
+  },
+  "devDependencies": {
+    "vitest": "^2.0.0",
+    "@types/node": "^20.0.0"
+  },
+  "scripts": {
+    "test": "vitest run"
+  }
+}

@@ -1,0 +1,32 @@
+import {
+  addenda02Fields,
+  addenda05Fields,
+  addenda10Fields,
+  addenda11Fields,
+  addenda12Fields,
+  addenda13Fields,
+  addenda14Fields,
+  addenda15Fields,
+  addenda16Fields,
+  addenda17Fields,
+  addenda18Fields,
+  addenda98Fields,
+  addenda99Fields,
+  FieldSpec,
+} from 'ach-ts';
+
+export const addendaFieldsByTypeCode: Record<string, FieldSpec[]> = {
+  '02': addenda02Fields,
+  '05': addenda05Fields,
+  '10': addenda10Fields,
+  '11': addenda11Fields,
+  '12': addenda12Fields,
+  '13': addenda13Fields,
+  '14': addenda14Fields,
+  '15': addenda15Fields,
+  '16': addenda16Fields,
+  '17': addenda17Fields,
+  '18': addenda18Fields,
+  '98': addenda98Fields,
+  '99': addenda99Fields,
+};

@@ -1,0 +1,129 @@
+{
+  "name": "ACH",
+  "scopeName": "source.ach",
+  "fileTypes": ["ach"],
+  "patterns": [
+    { "include": "#paddingLine" },
+    { "include": "#fileHeader" },
+    { "include": "#batchHeader" },
+    { "include": "#entryDetail" },
+    { "include": "#addenda" },
+    { "include": "#batchControl" },
+    { "include": "#fileControl" }
+  ],
+  "repository": {
+    "paddingLine": {
+      "match": "^9{10,}\\s*$",
+      "name": "comment.line.padding.ach"
+    },
+
+    "fileHeader": {
+      "comment": "Type 1: Record(1) Priority(2) Dest(10) Origin(10) Date(6) Time(4) Modifier(1) RecSize(3) Block(2) Fmt(1) DestName(23) OriginName(23) Ref(8) = 94",
+      "match": "^(1)(.{2})(.{10})(.{10})(.{6})(.{4})(.)(.{3})(.{2})(.)(.{23})(.{23})(.{8})\\s*$",
+      "name": "meta.record.file-header.ach",
+      "captures": {
+        "1":  { "name": "keyword.control.record-type.ach" },
+        "2":  { "name": "storage.type.priority-code.ach" },
+        "3":  { "name": "entity.name.type.routing.destination.ach" },
+        "4":  { "name": "entity.name.type.routing.origin.ach" },
+        "5":  { "name": "markup.italic.date.creation.ach" },
+        "6":  { "name": "markup.italic.time.creation.ach" },
+        "7":  { "name": "storage.type.file-id-modifier.ach" },
+        "8":  { "name": "constant.numeric.record-size.ach" },
+        "9":  { "name": "constant.numeric.blocking-factor.ach" },
+        "10": { "name": "constant.numeric.format-code.ach" },
+        "11": { "name": "entity.name.function.destination-name.ach" },
+        "12": { "name": "entity.name.function.origin-name.ach" },
+        "13": { "name": "string.unquoted.reference-code.ach" }
+      }
+    },
+
+    "batchHeader": {
+      "comment": "Type 5: Record(1) SvcClass(3) CoName(16) Disc(20) CoID(10) SEC(3) EntryDesc(10) DescDate(6) EffDate(6) Settle(3) OrigStatus(1) ODFI(8) BatchNum(7) = 94",
+      "match": "^(5)(.{3})(.{16})(.{20})(.{10})(.{3})(.{10})(.{6})(.{6})(.{3})(.)(.{8})(.{7})\\s*$",
+      "name": "meta.record.batch-header.ach",
+      "captures": {
+        "1":  { "name": "keyword.control.record-type.ach" },
+        "2":  { "name": "storage.type.service-class.ach" },
+        "3":  { "name": "entity.name.function.company-name.ach" },
+        "4":  { "name": "string.unquoted.company-discretionary.ach" },
+        "5":  { "name": "variable.other.company-id.ach" },
+        "6":  { "name": "support.class.sec-code.ach" },
+        "7":  { "name": "string.unquoted.entry-description.ach" },
+        "8":  { "name": "markup.italic.date.descriptive.ach" },
+        "9":  { "name": "markup.italic.date.effective.ach" },
+        "10": { "name": "comment.block.settlement-date.ach" },
+        "11": { "name": "constant.numeric.originator-status.ach" },
+        "12": { "name": "entity.name.type.routing.odfi.ach" },
+        "13": { "name": "constant.numeric.batch-number.ach" }
+      }
+    },
+
+    "entryDetail": {
+      "comment": "Type 6: Record(1) TxCode(2) RDFI(8) ChkDig(1) Acct(17) Amt(10) IndivID(15) IndivName(22) Disc(2) AddendaInd(1) Trace(15) = 94",
+      "match": "^(6)(.{2})(.{8})(.)(.{17})(.{10})(.{15})(.{22})(.{2})(.)(.{15})\\s*$",
+      "name": "meta.record.entry-detail.ach",
+      "captures": {
+        "1":  { "name": "keyword.control.record-type.ach" },
+        "2":  { "name": "storage.type.transaction-code.ach" },
+        "3":  { "name": "entity.name.type.routing.rdfi.ach" },
+        "4":  { "name": "entity.name.type.check-digit.ach" },
+        "5":  { "name": "variable.other.account-number.ach" },
+        "6":  { "name": "constant.numeric.amount.ach" },
+        "7":  { "name": "variable.parameter.individual-id.ach" },
+        "8":  { "name": "entity.name.function.individual-name.ach" },
+        "9":  { "name": "comment.block.discretionary-data.ach" },
+        "10": { "name": "storage.type.addenda-indicator.ach" },
+        "11": { "name": "support.variable.trace-number.ach" }
+      }
+    },
+
+    "addenda": {
+      "comment": "Type 7: Record(1) Type(2) Info(80) SeqNum(4) EntrySeq(7) = 94",
+      "match": "^(7)(.{2})(.{80})(.{4})(.{7})\\s*$",
+      "name": "meta.record.addenda.ach",
+      "captures": {
+        "1": { "name": "keyword.control.record-type.ach" },
+        "2": { "name": "support.class.addenda-type.ach" },
+        "3": { "name": "string.unquoted.payment-info.ach" },
+        "4": { "name": "constant.numeric.sequence-number.ach" },
+        "5": { "name": "support.variable.entry-sequence.ach" }
+      }
+    },
+
+    "batchControl": {
+      "comment": "Type 8: Record(1) SvcClass(3) Count(6) Hash(10) Debit(12) Credit(12) CoID(10) MAC(19) Reserved(6) ODFI(8) BatchNum(7) = 94",
+      "match": "^(8)(.{3})(.{6})(.{10})(.{12})(.{12})(.{10})(.{19})(.{6})(.{8})(.{7})\\s*$",
+      "name": "meta.record.batch-control.ach",
+      "captures": {
+        "1":  { "name": "keyword.control.record-type.ach" },
+        "2":  { "name": "storage.type.service-class.ach" },
+        "3":  { "name": "constant.numeric.entry-addenda-count.ach" },
+        "4":  { "name": "constant.numeric.entry-hash.ach" },
+        "5":  { "name": "constant.numeric.amount.debit.ach" },
+        "6":  { "name": "constant.numeric.amount.credit.ach" },
+        "7":  { "name": "variable.other.company-id.ach" },
+        "8":  { "name": "comment.block.message-auth.ach" },
+        "9":  { "name": "comment.block.reserved.ach" },
+        "10": { "name": "entity.name.type.routing.odfi.ach" },
+        "11": { "name": "constant.numeric.batch-number.ach" }
+      }
+    },
+
+    "fileControl": {
+      "comment": "Type 9: Record(1) BatchCnt(6) BlockCnt(6) EntryCount(8) Hash(10) Debit(12) Credit(12) Reserved(39) = 94",
+      "match": "^(9)(.{6})(.{6})(.{8})(.{10})(.{12})(.{12})(.{39})\\s*$",
+      "name": "meta.record.file-control.ach",
+      "captures": {
+        "1": { "name": "keyword.control.record-type.ach" },
+        "2": { "name": "constant.numeric.batch-count.ach" },
+        "3": { "name": "constant.numeric.block-count.ach" },
+        "4": { "name": "constant.numeric.entry-addenda-count.ach" },
+        "5": { "name": "constant.numeric.entry-hash.ach" },
+        "6": { "name": "constant.numeric.amount.debit.ach" },
+        "7": { "name": "constant.numeric.amount.credit.ach" },
+        "8": { "name": "comment.block.reserved.ach" }
+      }
+    }
+  }
+}
