@@ -6,6 +6,7 @@ import {
   DidChangeConfigurationNotification,
   TextDocumentSyncKind,
   InitializeResult,
+  CodeActionKind,
 } from 'vscode-languageserver/node';
 
 import { TextDocument } from 'vscode-languageserver-textdocument';
@@ -71,7 +72,9 @@ connection.onInitialize((params: InitializeParams) => {
       hoverProvider: true,
       documentFormattingProvider: true,
       documentRangeFormattingProvider: true,
-      codeActionProvider: true,
+      codeActionProvider: {
+        codeActionKinds: [CodeActionKind.QuickFix, CodeActionKind.Source],
+      },
       documentSymbolProvider: true,
       definitionProvider: true,
       referencesProvider: true,
