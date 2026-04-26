@@ -221,6 +221,7 @@
     "views": {
       "explorer": [
         {
+          "icon": "$(file-code)",
           "id": "achExplorer",
           "name": "ACH Explorer",
           "when": "resourceLangId == ach"
