@@ -3,7 +3,8 @@
   "displayName": "ACH",
   "description": "Language server and editing support for NACHA ACH files",
   "version": "0.1.0",
-  "publisher": "christopherdavenport",
+  "publisher": "christopherdavenport", 
+  "icon": "icon.png", 
   "license": "MIT",
   "repository": {
     "type": "git",
