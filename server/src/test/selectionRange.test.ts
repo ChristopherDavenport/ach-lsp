@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { provideSelectionRanges } from './selectionRange';
+import { provideSelectionRanges } from '../selectionRange';
 import { makeState } from './testHelpers';
 import { VALID_ACH, MULTI_BATCH_ACH } from './testFixtures';
 

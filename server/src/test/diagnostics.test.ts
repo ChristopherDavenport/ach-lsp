@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { computeDiagnostics } from './diagnostics';
+import { computeDiagnostics } from '../diagnostics';
 import { makeState } from './testHelpers';
 import { VALID_ACH, MALFORMED_ACH, BAD_CHECK_DIGIT_ACH } from './testFixtures';
 

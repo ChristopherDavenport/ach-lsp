@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { provideFoldingRanges } from './folding';
+import { provideFoldingRanges } from '../folding';
 import { makeState } from './testHelpers';
 import { VALID_ACH, ACH_WITH_ADDENDA, MULTI_BATCH_ACH, MALFORMED_ACH } from './testFixtures';
 

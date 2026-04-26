@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { provideCompletion, resolveCompletion } from './completion';
+import { provideCompletion, resolveCompletion } from '../completion';
 import { makeDocument } from './testHelpers';
 import { VALID_ACH, WEB_ACH } from './testFixtures';
 

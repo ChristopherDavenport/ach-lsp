@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { mergeAchContents } from './merge';
+import { mergeAchContents } from '../merge';
 import { VALID_ACH, MULTI_BATCH_ACH, MALFORMED_ACH, PARTIAL_ACH } from './testFixtures';
 
 describe('mergeAchContents', () => {

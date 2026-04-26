@@ -1,6 +1,6 @@
 import { TextDocument } from 'vscode-languageserver-textdocument';
 import { Reader } from 'ach-ts';
-import type { ACHDocumentState } from './achDocument';
+import type { ACHDocumentState } from '../achDocument';
 
 /** Create a TextDocument from raw ACH text for use in tests. */
 export function makeDocument(text: string, uri = 'file:///test.ach'): TextDocument {

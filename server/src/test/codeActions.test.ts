@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { provideCodeActions } from './codeActions';
+import { provideCodeActions } from '../codeActions';
 import { makeState } from './testHelpers';
 import { VALID_ACH, SHORT_LINE_ACH, BAD_CHECK_DIGIT_ACH, MULTI_BATCH_ACH } from './testFixtures';
 import type { CodeActionParams, Diagnostic, DiagnosticSeverity } from 'vscode-languageserver/node';

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { provideRangeFormatting } from './formatting';
+import { provideRangeFormatting } from '../formatting';
 import { makeState } from './testHelpers';
 import { SHORT_LINE_ACH, VALID_ACH } from './testFixtures';
 

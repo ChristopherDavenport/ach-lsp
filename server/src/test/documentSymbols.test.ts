@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { provideDocumentSymbols } from './documentSymbols';
+import { provideDocumentSymbols } from '../documentSymbols';
 import { makeState } from './testHelpers';
 import { VALID_ACH, ACH_WITH_ADDENDA, MULTI_BATCH_ACH, MALFORMED_ACH, PARTIAL_ACH } from './testFixtures';
 

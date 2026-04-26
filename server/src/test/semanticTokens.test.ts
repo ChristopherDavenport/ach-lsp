@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { provideSemanticTokens } from './semanticTokens';
+import { provideSemanticTokens } from '../semanticTokens';
 import { makeDocument } from './testHelpers';
 import { VALID_ACH, ACH_WITH_ADDENDA, WEB_ACH } from './testFixtures';
 

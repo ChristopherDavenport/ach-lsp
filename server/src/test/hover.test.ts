@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { provideHover } from './hover';
+import { provideHover } from '../hover';
 import { makeDocument } from './testHelpers';
 import { VALID_ACH, ACH_WITH_ADDENDA, WEB_ACH } from './testFixtures';
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { provideCodeLens } from './codeLens';
+import { provideCodeLens } from '../codeLens';
 import { makeState } from './testHelpers';
 import { VALID_ACH, ACH_WITH_ADDENDA, MULTI_BATCH_ACH } from './testFixtures';
 

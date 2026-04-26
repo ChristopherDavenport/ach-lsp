@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { provideWorkspaceSymbols } from './workspaceSymbols';
+import { provideWorkspaceSymbols } from '../workspaceSymbols';
 import { makeState } from './testHelpers';
 import { VALID_ACH, MULTI_BATCH_ACH } from './testFixtures';
-import type { ACHDocumentState } from './achDocument';
+import type { ACHDocumentState } from '../achDocument';
 
 function makeDocMap(entries: [string, ACHDocumentState][]): Map<string, ACHDocumentState> {
   return new Map(entries);

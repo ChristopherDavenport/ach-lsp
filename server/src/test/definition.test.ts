@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { provideDefinition } from './definition';
+import { provideDefinition } from '../definition';
 import { makeState } from './testHelpers';
 import { VALID_ACH, ACH_WITH_ADDENDA, MULTI_BATCH_ACH, PARTIAL_ACH } from './testFixtures';
 
