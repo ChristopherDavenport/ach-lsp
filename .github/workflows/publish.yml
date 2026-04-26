@@ -30,6 +30,12 @@ jobs:
       - name: Package extension
         run: npx @vscode/vsce package --no-dependencies
 
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: '*.vsix'
+          generate_release_notes: true
+
       - name: Publish to VS Code Marketplace
         run: npx @vscode/vsce publish --no-dependencies
         env:
@@ -40,9 +46,4 @@ jobs:
         env:
           OVSX_PAT: ${{ secrets.OVSX_PAT }}
         continue-on-error: true
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: '*.vsix'
-          generate_release_notes: true
+  
