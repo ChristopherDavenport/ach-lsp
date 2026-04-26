@@ -24,6 +24,11 @@ jobs:
         working-directory: shared
         run: npm install
 
+      - name: Set version from tag
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          npm version "$TAG_VERSION" --no-git-tag-version
+
       - name: Compile
         run: npm run compile
 
@@ -49,4 +54,3 @@ jobs:
         env:
           OVSX_PAT: ${{ secrets.OVSX_PAT }}
         continue-on-error: true
-  
