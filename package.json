@@ -29,7 +29,10 @@
     "payments",
     "eft"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onLanguage:ach",
+    "onView:achExplorer"
+  ],
   "main": "./client/out/extension.js",
   "contributes": {
     "languages": [
@@ -42,6 +45,7 @@
         "extensions": [
           ".ach"
         ],
+        "firstLine": "^101",
         "configuration": "./language-configuration.json"
       }
     ],
@@ -57,12 +61,14 @@
       "title": "ACH",
       "properties": {
         "ach.maxNumberOfProblems": {
+          "order": 1,
           "scope": "resource",
           "type": "number",
           "default": 1000,
           "description": "Controls the maximum number of problems produced by the server."
         },
         "ach.trace.server": {
+          "order": 2,
           "scope": "window",
           "type": "string",
           "enum": [
@@ -70,148 +76,177 @@
             "messages",
             "verbose"
           ],
+          "enumDescriptions": [
+            "No tracing.",
+            "Trace request/response messages.",
+            "Trace full message content including parameters."
+          ],
           "default": "off",
           "description": "Traces the communication between VS Code and the ACH language server."
         },
         "ach.validation.skipAll": {
+          "order": 10,
           "scope": "resource",
           "type": "boolean",
           "default": false,
-          "description": "Disable all validation."
+          "markdownDescription": "Disable all validation. When enabled, no `ach-ts` validation rules are applied."
         },
         "ach.validation.allowZeroBatches": {
+          "order": 11,
           "scope": "resource",
           "type": "boolean",
           "default": false,
           "description": "Allow files with no batches."
         },
         "ach.validation.customTraceNumbers": {
+          "order": 12,
           "scope": "resource",
           "type": "boolean",
           "default": false,
           "description": "Allow trace numbers that don't match ODFI."
         },
         "ach.validation.requireABAOrigin": {
+          "order": 13,
           "scope": "resource",
           "type": "boolean",
           "default": false,
           "description": "Require valid ABA routing number as origin."
         },
         "ach.validation.bypassOriginValidation": {
+          "order": 14,
           "scope": "resource",
           "type": "boolean",
           "default": false,
           "description": "Skip origin field validation."
         },
         "ach.validation.bypassDestinationValidation": {
+          "order": 15,
           "scope": "resource",
           "type": "boolean",
           "default": false,
           "description": "Skip destination field validation."
         },
         "ach.validation.allowMissingFileHeader": {
+          "order": 16,
           "scope": "resource",
           "type": "boolean",
           "default": false,
           "description": "Allow files without a FileHeader record."
         },
         "ach.validation.allowMissingFileControl": {
+          "order": 17,
           "scope": "resource",
           "type": "boolean",
           "default": false,
           "description": "Allow files without a FileControl record."
         },
         "ach.validation.bypassCompanyIdentificationMatch": {
+          "order": 18,
           "scope": "resource",
           "type": "boolean",
           "default": false,
           "description": "Skip batch header/control company ID match."
         },
         "ach.validation.customReturnCodes": {
+          "order": 19,
           "scope": "resource",
           "type": "boolean",
           "default": false,
           "description": "Allow non-standard return codes in Addenda99."
         },
         "ach.validation.unequalServiceClassCode": {
+          "order": 20,
           "scope": "resource",
           "type": "boolean",
           "default": false,
           "description": "Allow mismatched service class codes."
         },
         "ach.validation.allowUnorderedBatchNumbers": {
+          "order": 21,
           "scope": "resource",
           "type": "boolean",
           "default": false,
           "description": "Allow non-ascending batch numbers."
         },
         "ach.validation.allowInvalidCheckDigit": {
+          "order": 22,
           "scope": "resource",
           "type": "boolean",
           "default": false,
           "description": "Skip routing number check digit validation."
         },
         "ach.validation.unequalAddendaCounts": {
+          "order": 23,
           "scope": "resource",
           "type": "boolean",
           "default": false,
           "description": "Allow addenda count mismatches."
         },
         "ach.validation.preserveSpaces": {
+          "order": 24,
           "scope": "resource",
           "type": "boolean",
           "default": false,
           "description": "Retain trailing whitespace during parsing."
         },
         "ach.validation.allowInvalidAmounts": {
+          "order": 25,
           "scope": "resource",
           "type": "boolean",
           "default": false,
           "description": "Allow malformed amount fields."
         },
         "ach.validation.allowZeroEntryAmount": {
+          "order": 26,
           "scope": "resource",
           "type": "boolean",
           "default": false,
           "description": "Allow entries with zero dollar amounts."
         },
         "ach.validation.allowSpecialCharacters": {
+          "order": 27,
           "scope": "resource",
           "type": "boolean",
           "default": false,
           "description": "Allow non-alphanumeric characters in fields."
         },
         "ach.validation.allowEmptyIndividualName": {
+          "order": 28,
           "scope": "resource",
           "type": "boolean",
           "default": false,
           "description": "Allow blank individual name fields."
         },
         "ach.validation.bypassBatchValidation": {
+          "order": 29,
           "scope": "resource",
           "type": "boolean",
           "default": false,
-          "description": "Skip all batch-level validation."
+          "markdownDescription": "Skip all batch-level validation. Disables balance checks, count verification, and control record matching."
         },
         "ach.validation.skipFileCreationValidation": {
+          "order": 30,
           "scope": "resource",
           "type": "boolean",
           "default": false,
           "description": "Skip file creation date validation."
         },
         "ach.validation.skipBatchHeaderCompanyValidation": {
+          "order": 31,
           "scope": "resource",
           "type": "boolean",
           "default": false,
           "description": "Skip company name/ID validation in batch headers."
         },
         "ach.fieldSeparators": {
+          "order": 3,
           "scope": "resource",
           "type": "boolean",
           "default": true,
           "description": "Show visual separators between fields in the editor."
         },
         "ach.autoOpenPreview": {
+          "order": 4,
           "scope": "window",
           "type": "boolean",
           "default": true,
@@ -225,6 +260,7 @@
           "icon": "$(file-code)",
           "id": "achExplorer",
           "name": "ACH Explorer",
+          "contextualTitle": "ACH",
           "when": "resourceLangId == ach"
         }
       ]
@@ -232,44 +268,64 @@
     "commands": [
       {
         "command": "ach.openPreview",
-        "title": "ACH: Open Preview",
-        "icon": "$(open-preview-to-side)"
+        "title": "Open Preview",
+        "category": "ACH",
+        "icon": "$(open-preview-to-side)",
+        "enablement": "resourceLangId == ach"
       },
       {
         "command": "ach.toggleInlayHints",
-        "title": "ACH: Toggle Inlay Hints"
+        "title": "Toggle Inlay Hints",
+        "category": "ACH",
+        "enablement": "editorLangId == ach"
       },
       {
         "command": "ach.cursorFieldRight",
-        "title": "ACH: Move Cursor to Next Field"
+        "title": "Move Cursor to Next Field",
+        "category": "ACH",
+        "enablement": "editorLangId == ach"
       },
       {
         "command": "ach.cursorFieldLeft",
-        "title": "ACH: Move Cursor to Previous Field"
+        "title": "Move Cursor to Previous Field",
+        "category": "ACH",
+        "enablement": "editorLangId == ach"
       },
       {
         "command": "ach.cursorFieldRightSelect",
-        "title": "ACH: Select to Next Field"
+        "title": "Select to Next Field",
+        "category": "ACH",
+        "enablement": "editorLangId == ach"
       },
       {
         "command": "ach.cursorFieldLeftSelect",
-        "title": "ACH: Select to Previous Field"
+        "title": "Select to Previous Field",
+        "category": "ACH",
+        "enablement": "editorLangId == ach"
       },
       {
         "command": "ach.cursorSectionDown",
-        "title": "ACH: Move to Next Section"
+        "title": "Move to Next Section",
+        "category": "ACH",
+        "enablement": "editorLangId == ach"
       },
       {
         "command": "ach.cursorSectionUp",
-        "title": "ACH: Move to Previous Section"
+        "title": "Move to Previous Section",
+        "category": "ACH",
+        "enablement": "editorLangId == ach"
       },
       {
         "command": "ach.cursorSectionDownSelect",
-        "title": "ACH: Select to Next Section"
+        "title": "Select to Next Section",
+        "category": "ACH",
+        "enablement": "editorLangId == ach"
       },
       {
         "command": "ach.cursorSectionUpSelect",
-        "title": "ACH: Select to Previous Section"
+        "title": "Select to Previous Section",
+        "category": "ACH",
+        "enablement": "editorLangId == ach"
       }
     ],
     "menus": {
