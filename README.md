@@ -9,8 +9,14 @@ ACH (Automated Clearing House) files are the fixed-width, 94-character-per-line 
 - **Diagnostics** — Real-time parse and validation errors with 20+ configurable rules covering check digits, routing numbers, batch totals, addenda counts, and more
 - **Hover** — Field descriptions, format, column range, and current value; contextual info for amounts (cents → dollars), routing numbers (valid/invalid), dates, SEC codes, and transaction codes
 - **Completions** — Record type templates (1/5/6/7/8/9), SEC codes (PPD, CCD, IAT, WEB, …), transaction codes, service class codes, addenda types, and file ID modifiers
-- **Code Actions** — Quick fixes to recalculate invalid check digits, pad short lines to 94 characters, and set record size
-- **Formatting** — Whole-document formatting via the `ach-ts` library
+- **Code Actions** — Quick fixes to recalculate check digits, pad short lines, set record size, fix batch/file control totals, fix service class codes, fix dates/times; "Recalculate All" source action
+- **Formatting** — Document and range formatting via the `ach-ts` library; pads short lines in range selections
+- **Go to Definition** — Jump between batch headers and controls, entries and their batch headers, addenda and their entries
+- **Find References** — Find all entries/addenda in a batch, sibling entries, or linked header/control records
+- **CodeLens** — Inline stats above file header (batch/entry counts, DR/CR totals), batch headers (entry counts, totals), and entries with addenda (addenda count)
+- **Document Links** — Clickable routing numbers linking to FedACH lookup
+- **Selection Range** — Smart expand selection: field → record → batch → file
+- **Workspace Symbols** — Search company names, entry names, and batch descriptions across all open ACH files
 - **Document Symbols** — Outline view showing file header → batches → entries → addenda hierarchy with amounts and names
 - **Semantic Tokens** — Per-field syntax highlighting using 8 token types (keyword, number, string, type, variable, comment, parameter, enum) with adjacency-aware coloring
 - **Folding** — Collapse batches (header through control) and entries with their addenda records
@@ -19,6 +25,13 @@ ACH (Automated Clearing House) files are the fixed-width, 94-character-per-line 
 - **Preview Panel** — Structured viewer with view, edit, search, and diff modes; auto-opens when you open an ACH file
 - **Field Decorations** — Zebra-striped alternating backgrounds to visually separate fields on each line
 - **Field Navigation** — `Ctrl+Arrow` moves the cursor between fields instead of words; `Ctrl+Up/Down` moves between sections (batches, file header/control)
+- **Status Bar** — Batch/entry counts, debit/credit totals, and error/warning counts at a glance
+- **Context Menu** — Select Field and Copy Field Value from the right-click menu
+- **Snippets** — 10 templates for record types, complete batches, and full ACH files
+- **Merge Files** — Merge multiple ACH files into as few files as possible using NACHA rules
+- **Export/Import JSON** — Round-trip ACH files through JSON using `ach-ts` serialization
+- **Create New File** — Scaffold a new ACH file with today's date
+- **Validate All** — Batch-validate every `.ach` file in the workspace with a progress report
 
 ## Installation
 
@@ -55,6 +68,14 @@ All commands are available via the Command Palette (`Ctrl+Shift+P`):
 
 - **ACH: Open Preview** — Open the structured preview panel
 - **ACH: Toggle Inlay Hints** — Show or hide inline field labels
+- **ACH: Toggle Field Separators** — Show or hide zebra-striped field backgrounds
+- **ACH: Select Field** — Select the field at the cursor position
+- **ACH: Copy Field Value** — Copy the trimmed value of the field at cursor
+- **ACH: Validate All ACH Files** — Validate every `.ach` file in the workspace
+- **ACH: Export to JSON** — Export the active ACH file to JSON format
+- **ACH: Import from JSON** — Import a JSON file and convert to ACH
+- **ACH: Merge ACH Files** — Merge multiple workspace ACH files into one
+- **ACH: Create New ACH File** — Scaffold a new ACH file with today's date
 - **ACH: Move Cursor to Next Field** / **Previous Field**
 - **ACH: Select to Next Field** / **Previous Field**
 - **ACH: Move to Next Section** / **Previous Section**

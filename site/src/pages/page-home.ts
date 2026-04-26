@@ -100,6 +100,13 @@ export class PageHome extends LitElement {
         <feature-card icon="🗂️" heading="Document Symbols" description="Hierarchical outline showing file structure with batches, entries, and addenda."></feature-card>
         <feature-card icon="🌲" heading="ACH Explorer" description="Sidebar tree view for navigating file structure with click-to-jump."></feature-card>
         <feature-card icon="👁️" heading="Structured Preview" description="Side panel with structured view, inline editing, search, diff, and bi-directional editor sync."></feature-card>
+        <feature-card icon="🔗" heading="Go to Definition" description="Jump between batch headers/controls, entries to batch headers, and addenda to entries."></feature-card>
+        <feature-card icon="🔢" heading="CodeLens" description="Inline batch/entry counts and debit/credit totals above file and batch headers."></feature-card>
+        <feature-card icon="🌐" heading="Document Links" description="Clickable routing numbers linking to FedACH lookup for instant verification."></feature-card>
+        <feature-card icon="📊" heading="Status Bar" description="Real-time batch/entry counts, debit/credit totals, and error/warning counts."></feature-card>
+        <feature-card icon="🧩" heading="Snippets" description="10 templates for records, batches (PPD/CCD/WEB), and complete ACH files."></feature-card>
+        <feature-card icon="🔀" heading="Merge Files" description="Merge multiple ACH files into as few files as possible using NACHA rules."></feature-card>
+        <feature-card icon="📤" heading="Export & Import" description="Round-trip ACH files through JSON format using ach-ts serialization."></feature-card>
       </div>
     `;
   }
