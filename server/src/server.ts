@@ -11,12 +11,19 @@ import {
 import { TextDocument } from 'vscode-languageserver-textdocument';
 import { ValidateOpts } from 'ach-ts';
 import { parseDocument, parseDocumentImmediate, removeDocument, getDocument } from './achDocument';
+import type { ACHDocumentState } from './achDocument';
 import { computeDiagnostics } from './diagnostics';
 import { provideHover } from './hover';
 import { provideCompletion, resolveCompletion } from './completion';
-import { provideFormatting } from './formatting';
+import { provideFormatting, provideRangeFormatting } from './formatting';
 import { provideCodeActions } from './codeActions';
 import { provideDocumentSymbols } from './documentSymbols';
+import { provideDefinition } from './definition';
+import { provideReferences } from './references';
+import { provideCodeLens } from './codeLens';
+import { provideSelectionRanges } from './selectionRange';
+import { provideDocumentLinks } from './documentLinks';
+import { provideWorkspaceSymbols } from './workspaceSymbols';
 import {
   semanticTokensLegend,
   provideSemanticTokens,
@@ -63,8 +70,15 @@ connection.onInitialize((params: InitializeParams) => {
       },
       hoverProvider: true,
       documentFormattingProvider: true,
+      documentRangeFormattingProvider: true,
       codeActionProvider: true,
       documentSymbolProvider: true,
+      definitionProvider: true,
+      referencesProvider: true,
+      codeLensProvider: {},
+      selectionRangeProvider: true,
+      documentLinkProvider: {},
+      workspaceSymbolProvider: true,
       foldingRangeProvider: true,
       semanticTokensProvider: {
         legend: semanticTokensLegend,
@@ -165,6 +179,16 @@ connection.onDocumentFormatting((params) => {
   return provideFormatting(state);
 });
 
+connection.onDocumentRangeFormatting((params) => {
+  let state = getDocument(params.textDocument.uri);
+  if (!state) {
+    const document = documents.get(params.textDocument.uri);
+    if (!document) return [];
+    state = parseDocumentImmediate(document.uri, document.getText(), document.version);
+  }
+  return provideRangeFormatting(state, params.range);
+});
+
 connection.onCodeAction((params) => {
   let state = getDocument(params.textDocument.uri);
   if (!state) {
@@ -202,6 +226,63 @@ connection.languages.semanticTokens.on((params) => {
     return { data: [] };
   }
   return provideSemanticTokens(document);
+});
+
+connection.onDefinition((params) => {
+  let state = getDocument(params.textDocument.uri);
+  if (!state) {
+    const document = documents.get(params.textDocument.uri);
+    if (!document) return null;
+    state = parseDocumentImmediate(document.uri, document.getText(), document.version);
+  }
+  return provideDefinition(state, params.textDocument.uri, params.position.line);
+});
+
+connection.onReferences((params) => {
+  let state = getDocument(params.textDocument.uri);
+  if (!state) {
+    const document = documents.get(params.textDocument.uri);
+    if (!document) return [];
+    state = parseDocumentImmediate(document.uri, document.getText(), document.version);
+  }
+  return provideReferences(state, params.textDocument.uri, params.position.line);
+});
+
+connection.onCodeLens((params) => {
+  let state = getDocument(params.textDocument.uri);
+  if (!state) {
+    const document = documents.get(params.textDocument.uri);
+    if (!document) return [];
+    state = parseDocumentImmediate(document.uri, document.getText(), document.version);
+  }
+  return provideCodeLens(state);
+});
+
+connection.onSelectionRanges((params) => {
+  let state = getDocument(params.textDocument.uri);
+  if (!state) {
+    const document = documents.get(params.textDocument.uri);
+    if (!document) return [];
+    state = parseDocumentImmediate(document.uri, document.getText(), document.version);
+  }
+  return provideSelectionRanges(state, params.positions);
+});
+
+connection.onDocumentLinks((params) => {
+  const document = documents.get(params.textDocument.uri);
+  if (!document) return [];
+  return provideDocumentLinks(document);
+});
+
+connection.onWorkspaceSymbol((params) => {
+  const allStates = new Map<string, ACHDocumentState>();
+  for (const doc of documents.all()) {
+    const state = getDocument(doc.uri);
+    if (state) {
+      allStates.set(doc.uri, state);
+    }
+  }
+  return provideWorkspaceSymbols(params.query, allStates);
 });
 
 // Custom request for tree view
