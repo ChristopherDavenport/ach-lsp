@@ -81,17 +81,22 @@ export class PageFeatures extends LitElement {
 
       <section>
         <h2><span class="icon">📐</span>Formatting</h2>
-        <p>Format entire ACH files to proper 94-character fixed-width format using the <code>ach-ts</code> Writer. Only formats files that parse without errors to prevent data corruption.</p>
+        <p>Format entire ACH files or selected ranges to proper 94-character fixed-width format using the <code>ach-ts</code> Writer. Range formatting pads short lines to 94 characters. Only full-document formatting requires a clean parse to prevent data corruption.</p>
         <div class="screenshot"><screenshot-placeholder label="Format Document: before and after" aspect="4/3"></screenshot-placeholder></div>
       </section>
 
       <section>
         <h2><span class="icon">🔧</span>Code Actions (Quick Fixes)</h2>
-        <p>Three quick fixes available via the lightbulb menu:</p>
+        <p>Extensive quick fixes available via the lightbulb menu, plus a source action for bulk operations:</p>
         <ul>
           <li><strong>Fix check digit</strong> — calculates the correct check digit for routing numbers</li>
           <li><strong>Pad line to 94 characters</strong> — right-pads short records with spaces</li>
           <li><strong>Set record size</strong> — corrects the record size field in file headers to "094"</li>
+          <li><strong>Fix batch control totals</strong> — recalculates entry hash, debit/credit totals, and entry/addenda counts</li>
+          <li><strong>Fix file control totals</strong> — recalculates batch count, block count, entry hash, and totals across all batches</li>
+          <li><strong>Fix service class code</strong> — sets the correct service class code (200/220/225) based on entry types</li>
+          <li><strong>Fix dates/times</strong> — updates file creation date/time and effective entry dates to today</li>
+          <li><strong>Recalculate All</strong> — source action that recalculates all computed fields in one pass</li>
         </ul>
         <div class="screenshot"><screenshot-placeholder label="Code Actions: fix check digit lightbulb" aspect="4/3"></screenshot-placeholder></div>
       </section>
@@ -189,6 +194,64 @@ export class PageFeatures extends LitElement {
           <li><strong>Auto-open</strong> — opens automatically when ACH files are opened (configurable via <code>ach.autoOpenPreview</code>), or toggle with Ctrl+Shift+V</li>
         </ul>
         <div class="screenshot"><screenshot-placeholder label="Structured Preview: hierarchical view with field editing"></screenshot-placeholder></div>
+      </section>
+
+      <section>
+        <h2><span class="icon">🔗</span>Go to Definition &amp; References</h2>
+        <p>Navigate ACH file structure with standard IDE shortcuts:</p>
+        <ul>
+          <li><strong>Go to Definition (F12)</strong> — jump between batch headers and their controls, entries to their batch header, addenda to their entry</li>
+          <li><strong>Find All References (Shift+F12)</strong> — find all entries and addenda in a batch, sibling entries, or linked header/control records</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="icon">🔢</span>CodeLens</h2>
+        <p>Inline statistics displayed above key records:</p>
+        <ul>
+          <li><strong>File header</strong> — total batch count, entry count, debit/credit totals</li>
+          <li><strong>Batch headers</strong> — entry count, debit/credit totals for the batch</li>
+          <li><strong>Entries with addenda</strong> — addenda count</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="icon">🌐</span>Document Links</h2>
+        <p>Routing numbers in ACH files become clickable links that open the FedACH routing number lookup, letting you quickly verify any institution.</p>
+      </section>
+
+      <section>
+        <h2><span class="icon">📊</span>Status Bar</h2>
+        <p>The status bar shows a summary of the active ACH file: batch count, entry count, debit/credit totals (formatted as currency), and error/warning counts — all updated in real time.</p>
+      </section>
+
+      <section>
+        <h2><span class="icon">🧩</span>Snippets</h2>
+        <p>10 snippet templates to speed up ACH file creation:</p>
+        <ul>
+          <li><strong>Record templates</strong> — individual records for types 1, 5, 6, 7, 8, 9 with tab stops</li>
+          <li><strong>Batch templates</strong> — complete PPD, CCD, and WEB batches (header + entry + control)</li>
+          <li><strong>Full file</strong> — complete ACH file with all record types</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="icon">🔀</span>Merge Files</h2>
+        <p>Merge multiple ACH files into as few files as possible using NACHA rules. Select files from a quick pick list, and the extension merges batches while respecting the 10,000-line limit and matching origin/destination routing numbers.</p>
+      </section>
+
+      <section>
+        <h2><span class="icon">📤</span>Export &amp; Import</h2>
+        <p>Round-trip ACH files through JSON format:</p>
+        <ul>
+          <li><strong>Export to JSON</strong> — serialize the active ACH file using <code>ach-ts</code> structured JSON</li>
+          <li><strong>Import from JSON</strong> — convert an <code>ach-ts</code> JSON file back to fixed-width ACH format</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="icon">✅</span>Validate All</h2>
+        <p>Batch-validate every <code>.ach</code> file in the workspace with a progress indicator. Results are written to the "ACH Validation" output channel with per-file error and warning counts.</p>
       </section>
     `;
   }

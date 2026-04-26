@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { provideFormatting } from './formatting';
+import { provideFormatting } from '../formatting';
 import { Reader } from 'ach-ts';
-import type { ACHDocumentState } from './achDocument';
+import type { ACHDocumentState } from '../achDocument';
 
 // A minimal ACH file produced by Writer (every line is exactly 94 chars)
 const VALID_ACH = [

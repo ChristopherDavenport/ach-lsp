@@ -6,17 +6,26 @@ import {
   DidChangeConfigurationNotification,
   TextDocumentSyncKind,
   InitializeResult,
+  CodeActionKind,
 } from 'vscode-languageserver/node';
 
 import { TextDocument } from 'vscode-languageserver-textdocument';
-import { ValidateOpts } from 'ach-ts';
+import { ValidateOpts, fileFromJSON, writeFile, Reader } from 'ach-ts';
 import { parseDocument, parseDocumentImmediate, removeDocument, getDocument } from './achDocument';
+import type { ACHDocumentState } from './achDocument';
+import { mergeAchContents } from './merge';
 import { computeDiagnostics } from './diagnostics';
 import { provideHover } from './hover';
 import { provideCompletion, resolveCompletion } from './completion';
-import { provideFormatting } from './formatting';
+import { provideFormatting, provideRangeFormatting } from './formatting';
 import { provideCodeActions } from './codeActions';
 import { provideDocumentSymbols } from './documentSymbols';
+import { provideDefinition } from './definition';
+import { provideReferences } from './references';
+import { provideCodeLens } from './codeLens';
+import { provideSelectionRanges } from './selectionRange';
+import { provideDocumentLinks } from './documentLinks';
+import { provideWorkspaceSymbols } from './workspaceSymbols';
 import {
   semanticTokensLegend,
   provideSemanticTokens,
@@ -63,8 +72,17 @@ connection.onInitialize((params: InitializeParams) => {
       },
       hoverProvider: true,
       documentFormattingProvider: true,
-      codeActionProvider: true,
+      documentRangeFormattingProvider: true,
+      codeActionProvider: {
+        codeActionKinds: [CodeActionKind.QuickFix, CodeActionKind.Source],
+      },
       documentSymbolProvider: true,
+      definitionProvider: true,
+      referencesProvider: true,
+      codeLensProvider: {},
+      selectionRangeProvider: true,
+      documentLinkProvider: {},
+      workspaceSymbolProvider: true,
       foldingRangeProvider: true,
       semanticTokensProvider: {
         legend: semanticTokensLegend,
@@ -165,6 +183,16 @@ connection.onDocumentFormatting((params) => {
   return provideFormatting(state);
 });
 
+connection.onDocumentRangeFormatting((params) => {
+  let state = getDocument(params.textDocument.uri);
+  if (!state) {
+    const document = documents.get(params.textDocument.uri);
+    if (!document) return [];
+    state = parseDocumentImmediate(document.uri, document.getText(), document.version);
+  }
+  return provideRangeFormatting(state, params.range);
+});
+
 connection.onCodeAction((params) => {
   let state = getDocument(params.textDocument.uri);
   if (!state) {
@@ -204,6 +232,63 @@ connection.languages.semanticTokens.on((params) => {
   return provideSemanticTokens(document);
 });
 
+connection.onDefinition((params) => {
+  let state = getDocument(params.textDocument.uri);
+  if (!state) {
+    const document = documents.get(params.textDocument.uri);
+    if (!document) return null;
+    state = parseDocumentImmediate(document.uri, document.getText(), document.version);
+  }
+  return provideDefinition(state, params.textDocument.uri, params.position.line);
+});
+
+connection.onReferences((params) => {
+  let state = getDocument(params.textDocument.uri);
+  if (!state) {
+    const document = documents.get(params.textDocument.uri);
+    if (!document) return [];
+    state = parseDocumentImmediate(document.uri, document.getText(), document.version);
+  }
+  return provideReferences(state, params.textDocument.uri, params.position.line);
+});
+
+connection.onCodeLens((params) => {
+  let state = getDocument(params.textDocument.uri);
+  if (!state) {
+    const document = documents.get(params.textDocument.uri);
+    if (!document) return [];
+    state = parseDocumentImmediate(document.uri, document.getText(), document.version);
+  }
+  return provideCodeLens(state);
+});
+
+connection.onSelectionRanges((params) => {
+  let state = getDocument(params.textDocument.uri);
+  if (!state) {
+    const document = documents.get(params.textDocument.uri);
+    if (!document) return [];
+    state = parseDocumentImmediate(document.uri, document.getText(), document.version);
+  }
+  return provideSelectionRanges(state, params.positions);
+});
+
+connection.onDocumentLinks((params) => {
+  const document = documents.get(params.textDocument.uri);
+  if (!document) return [];
+  return provideDocumentLinks(document);
+});
+
+connection.onWorkspaceSymbol((params) => {
+  const allStates = new Map<string, ACHDocumentState>();
+  for (const doc of documents.all()) {
+    const state = getDocument(doc.uri);
+    if (state) {
+      allStates.set(doc.uri, state);
+    }
+  }
+  return provideWorkspaceSymbols(params.query, allStates);
+});
+
 // Custom request for tree view
 connection.onRequest('ach/getFileStructure', (params: { uri: string }) => {
   const state = getDocument(params.uri);
@@ -223,6 +308,33 @@ connection.onRequest('ach/getInlayHints', (params: { uri: string; cursors: { lin
   const document = documents.get(params.uri);
   if (!document) return [];
   return provideInlayHints(document, params.cursors);
+});
+
+// Custom request: export file as ach-ts JSON
+connection.onRequest('ach/exportJson', (params: { uri: string }) => {
+  const state = getDocument(params.uri);
+  if (!state?.file) return null;
+  try {
+    return state.file.toJSON();
+  } catch {
+    return null;
+  }
+});
+
+// Custom request: import ach-ts JSON to ACH text
+connection.onRequest('ach/importJson', (params: { json: string }) => {
+  try {
+    const files = fileFromJSON(params.json);
+    if (!files || files.length === 0) return null;
+    return writeFile(files[0]);
+  } catch (e) {
+    return null;
+  }
+});
+
+// Custom request: merge multiple ACH file contents into one
+connection.onRequest('ach/mergeFiles', (params: { contents: string[] }) => {
+  return mergeAchContents(params.contents);
 });
 
 documents.listen(connection);

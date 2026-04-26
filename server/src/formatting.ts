@@ -34,3 +34,39 @@ export function provideFormatting(state: ACHDocumentState): TextEdit[] {
     return [];
   }
 }
+
+/**
+ * Format a range of lines in the ACH document.
+ * Each line is padded/trimmed to exactly 94 characters.
+ * Lines that can be reformatted via Writer are; otherwise
+ * simple padding is applied.
+ */
+export function provideRangeFormatting(
+  state: ACHDocumentState,
+  range: Range
+): TextEdit[] {
+  const lines = state.text.split('\n');
+  const startLine = range.start.line;
+  const endLine = Math.min(range.end.line, lines.length - 1);
+  const edits: TextEdit[] = [];
+
+  for (let i = startLine; i <= endLine; i++) {
+    const line = lines[i];
+    if (line === undefined) continue;
+
+    // Pad to 94 or trim trailing whitespace to 94
+    const trimmed = line.replace(/\s+$/, '');
+    const formatted = trimmed.padEnd(94).substring(0, 94);
+
+    if (formatted !== line) {
+      edits.push(
+        TextEdit.replace(
+          Range.create(i, 0, i, line.length),
+          formatted
+        )
+      );
+    }
+  }
+
+  return edits;
+}

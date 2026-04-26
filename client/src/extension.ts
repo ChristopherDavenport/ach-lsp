@@ -21,6 +21,9 @@ import { ACHTreeDataProvider } from './achTreeView';
 import { AchPreviewPanel } from './achPreview';
 import { activateFieldDecorations } from './fieldDecorations';
 import { activateFieldNavigation } from './fieldNavigation';
+import { activateStatusBar } from './statusBar';
+import { activateContextCommands } from './contextCommands';
+import { activateAdvancedCommands } from './advancedCommands';
 
 let client: LanguageClient | undefined;
 
@@ -172,6 +175,24 @@ export async function activate(context: ExtensionContext) {
 
   // Activate field-aware word navigation (Ctrl+Left/Right)
   activateFieldNavigation(client, context);
+
+  // Activate status bar
+  activateStatusBar(context);
+
+  // Activate context menu commands (select field, copy field value)
+  activateContextCommands(client, context);
+
+  // Activate advanced commands (validate all, export, import, new file)
+  activateAdvancedCommands(client, context);
+
+  // Register toggle field separators command
+  context.subscriptions.push(
+    commands.registerCommand('ach.toggleFieldSeparators', () => {
+      const config = workspace.getConfiguration('ach');
+      const current = config.get<boolean>('fieldSeparators', true);
+      config.update('fieldSeparators', !current, undefined, true);
+    })
+  );
 
   // Auto-open preview when an ACH file is opened
   context.subscriptions.push(

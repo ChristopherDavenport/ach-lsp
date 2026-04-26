@@ -1,0 +1,89 @@
+{
+  "File Header (Record Type 1)": {
+    "prefix": "ach-file-header",
+    "description": "ACH File Header Record (Type 1)",
+    "body": [
+      "101 ${1:DestRoutingNo} ${2:OriginRoutingNo}${3:YYMMDD}${4:HHMM}${5:A}094101${6:Dest Name                    }${7:Origin Name                   }${8:        }"
+    ]
+  },
+  "Batch Header (Record Type 5)": {
+    "prefix": "ach-batch-header",
+    "description": "ACH Batch Header Record (Type 5)",
+    "body": [
+      "5${1|200,220,225|}${2:Company Name            }${3:                    }${4:CompanyID }${5|PPD,CCD,WEB,TEL,CTX,COR,IAT|}${6:Entry Desc}${7:DescDate}${8:YYMMDD}   ${9:1}${10:OriginDFI}${11:0000001}"
+    ]
+  },
+  "Entry Detail (Record Type 6)": {
+    "prefix": "ach-entry",
+    "description": "ACH Entry Detail Record (Type 6)",
+    "body": [
+      "6${1|22,27,32,37|}${2:RoutingNo}${3:DFI Acct Number  }${4:0000000000}${5:               }${6:Individual Name         }${7:  }${8:0}${9:OriginDFI}${10:0000001}"
+    ]
+  },
+  "Addenda 05 (Record Type 7)": {
+    "prefix": "ach-addenda-05",
+    "description": "ACH Addenda Record (Type 05)",
+    "body": [
+      "705${1:Payment Related Info                                                             }${2:0001}${3:0000001}${4:0000001}"
+    ]
+  },
+  "Batch Control (Record Type 8)": {
+    "prefix": "ach-batch-control",
+    "description": "ACH Batch Control Record (Type 8)",
+    "body": [
+      "8${1|200,220,225|}${2:000001}${3:0000000000}${4:000000000000}${5:000000000000}${6:CompanyID }                         ${7:OriginDFI}${8:0000001}"
+    ]
+  },
+  "File Control (Record Type 9)": {
+    "prefix": "ach-file-control",
+    "description": "ACH File Control Record (Type 9)",
+    "body": [
+      "9${1:000001}${2:000001}${3:00000001}${4:0000000000}${5:000000000000}${6:000000000000}                                       "
+    ]
+  },
+  "PPD Batch (Complete)": {
+    "prefix": "ach-ppd-batch",
+    "description": "Complete PPD batch with header, entry, and control",
+    "body": [
+      "5200${1:Company Name            }${2:                    }${3:CompanyID }PPDPAYROLL         ${4:YYMMDD}   1${5:OriginDFI}${6:0000001}",
+      "622${7:RoutingNo}${8:DFI Acct Number  }${9:0000000000}               ${10:Individual Name         }  0${5:OriginDFI}${11:0000001}",
+      "8200000001${12:0000000000}000000000000${13:000000000000}${3:CompanyID }                         ${5:OriginDFI}${6:0000001}"
+    ]
+  },
+  "CCD Batch (Complete)": {
+    "prefix": "ach-ccd-batch",
+    "description": "Complete CCD batch with header, entry, and control",
+    "body": [
+      "5200${1:Company Name            }${2:                    }${3:CompanyID }CCDPAYMENT        ${4:YYMMDD}   1${5:OriginDFI}${6:0000001}",
+      "622${7:RoutingNo}${8:DFI Acct Number  }${9:0000000000}               ${10:Individual Name         }  0${5:OriginDFI}${11:0000001}",
+      "8200000001${12:0000000000}000000000000${13:000000000000}${3:CompanyID }                         ${5:OriginDFI}${6:0000001}"
+    ]
+  },
+  "WEB Batch (Complete)": {
+    "prefix": "ach-web-batch",
+    "description": "Complete WEB batch with header, entry, and control",
+    "body": [
+      "5200${1:Company Name            }${2:                    }${3:CompanyID }WEBONLINE PMT     ${4:YYMMDD}   1${5:OriginDFI}${6:0000001}",
+      "622${7:RoutingNo}${8:DFI Acct Number  }${9:0000000000}               ${10:Individual Name         }  0${5:OriginDFI}${11:0000001}",
+      "8200000001${12:0000000000}000000000000${13:000000000000}${3:CompanyID }                         ${5:OriginDFI}${6:0000001}"
+    ]
+  },
+  "Complete ACH File": {
+    "prefix": "ach-file",
+    "description": "Complete ACH file with header, PPD batch, and controls",
+    "body": [
+      "101 ${1:076401251} ${2:0764012512}${3:YYMMDD}${4:HHMM}A094101${5:DEST BANK              }${6:ORIGIN BANK            }        ",
+      "5200${7:COMPANY NAME            }                    ${8:1234567890}PPDPAYROLL         ${9:YYMMDD}   1${10:07640125}0000001",
+      "622${10:07640125}1${11:DFI Acct Number  }0000050000               ${12:INDIVIDUAL NAME         }  0${10:07640125}0000001",
+      "82000000010${13:000000000}000000000000000000050000${8:1234567890}                         ${10:07640125}0000001",
+      "9000001000001000000010${13:000000000}000000000000000000050000                                       "
+    ]
+  },
+  "Padding Line (9s)": {
+    "prefix": "ach-padding",
+    "description": "ACH padding line (all 9s)",
+    "body": [
+      "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"
+    ]
+  }
+}
