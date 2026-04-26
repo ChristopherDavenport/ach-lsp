@@ -345,6 +345,35 @@
         "category": "ACH",
         "icon": "$(symbol-number)",
         "enablement": "editorLangId == ach"
+      },
+      {
+        "command": "ach.validateAll",
+        "title": "Validate All ACH Files",
+        "category": "ACH",
+        "icon": "$(check-all)"
+      },
+      {
+        "command": "ach.exportJson",
+        "title": "Export to JSON",
+        "category": "ACH",
+        "enablement": "editorLangId == ach"
+      },
+      {
+        "command": "ach.importJson",
+        "title": "Import from JSON",
+        "category": "ACH"
+      },
+      {
+        "command": "ach.newFile",
+        "title": "Create New ACH File",
+        "category": "ACH",
+        "icon": "$(new-file)"
+      },
+      {
+        "command": "ach.mergeFiles",
+        "title": "Merge ACH Files",
+        "category": "ACH",
+        "icon": "$(merge)"
       }
     ],
     "menus": {
@@ -361,6 +390,11 @@
         },
         {
           "command": "ach.toggleInlayHints",
+          "when": "resourceLangId == ach",
+          "group": "1_ach"
+        },
+        {
+          "command": "ach.exportJson",
           "when": "resourceLangId == ach",
           "group": "1_ach"
         }

@@ -23,6 +23,7 @@ import { activateFieldDecorations } from './fieldDecorations';
 import { activateFieldNavigation } from './fieldNavigation';
 import { activateStatusBar } from './statusBar';
 import { activateContextCommands } from './contextCommands';
+import { activateAdvancedCommands } from './advancedCommands';
 
 let client: LanguageClient | undefined;
 
@@ -180,6 +181,9 @@ export async function activate(context: ExtensionContext) {
 
   // Activate context menu commands (select field, copy field value)
   activateContextCommands(client, context);
+
+  // Activate advanced commands (validate all, export, import, new file)
+  activateAdvancedCommands(client, context);
 
   // Register toggle field separators command
   context.subscriptions.push(

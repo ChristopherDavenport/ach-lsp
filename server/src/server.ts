@@ -10,9 +10,10 @@ import {
 } from 'vscode-languageserver/node';
 
 import { TextDocument } from 'vscode-languageserver-textdocument';
-import { ValidateOpts } from 'ach-ts';
+import { ValidateOpts, fileFromJSON, writeFile, Reader } from 'ach-ts';
 import { parseDocument, parseDocumentImmediate, removeDocument, getDocument } from './achDocument';
 import type { ACHDocumentState } from './achDocument';
+import { mergeAchContents } from './merge';
 import { computeDiagnostics } from './diagnostics';
 import { provideHover } from './hover';
 import { provideCompletion, resolveCompletion } from './completion';
@@ -307,6 +308,33 @@ connection.onRequest('ach/getInlayHints', (params: { uri: string; cursors: { lin
   const document = documents.get(params.uri);
   if (!document) return [];
   return provideInlayHints(document, params.cursors);
+});
+
+// Custom request: export file as ach-ts JSON
+connection.onRequest('ach/exportJson', (params: { uri: string }) => {
+  const state = getDocument(params.uri);
+  if (!state?.file) return null;
+  try {
+    return state.file.toJSON();
+  } catch {
+    return null;
+  }
+});
+
+// Custom request: import ach-ts JSON to ACH text
+connection.onRequest('ach/importJson', (params: { json: string }) => {
+  try {
+    const files = fileFromJSON(params.json);
+    if (!files || files.length === 0) return null;
+    return writeFile(files[0]);
+  } catch (e) {
+    return null;
+  }
+});
+
+// Custom request: merge multiple ACH file contents into one
+connection.onRequest('ach/mergeFiles', (params: { contents: string[] }) => {
+  return mergeAchContents(params.contents);
 });
 
 documents.listen(connection);
