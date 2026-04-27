@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { splitAchContent } from '../split';
-import { VALID_ACH, MULTI_BATCH_ACH, MALFORMED_ACH, PARTIAL_ACH } from './testFixtures';
+import { VALID_ACH, MULTI_BATCH_ACH, MALFORMED_ACH, PARTIAL_ACH, MIXED_VALIDITY_ACH, ALL_VALID_SPLIT_ACH, SINGLE_INVALID_SPLIT_ACH } from './testFixtures';
 
 describe('splitAchContent', () => {
   describe('conditions mode', () => {
@@ -185,6 +185,109 @@ describe('splitAchContent', () => {
       const keys = Object.keys(result.files!);
       expect(keys.length).toBe(1);
       expect(keys).toContain('1234567890');
+    });
+  });
+
+  describe('validate mode', () => {
+    it('all-valid file produces only a valid group', () => {
+      const result = splitAchContent({
+        content: ALL_VALID_SPLIT_ACH,
+        mode: 'validate',
+      });
+      expect(result.error).toBeUndefined();
+      expect(result.files).toBeDefined();
+      const keys = Object.keys(result.files!);
+      expect(keys).toContain('valid');
+      expect(keys).not.toContain('invalid');
+    });
+
+    it('mixed file produces both valid and invalid groups', () => {
+      const result = splitAchContent({
+        content: MIXED_VALIDITY_ACH,
+        mode: 'validate',
+      });
+      expect(result.error).toBeUndefined();
+      expect(result.files).toBeDefined();
+      const keys = Object.keys(result.files!);
+      expect(keys).toContain('valid');
+      expect(keys).toContain('invalid');
+    });
+
+    it('valid group contains only valid entries', () => {
+      const result = splitAchContent({
+        content: MIXED_VALIDITY_ACH,
+        mode: 'validate',
+      });
+      const validFiles = result.files!['valid'];
+      expect(validFiles).toBeDefined();
+      const entryLines = validFiles.flatMap(t => t.split('\n').filter(l => l.startsWith('6')));
+      expect(entryLines.length).toBe(1);
+      // Valid entry has routing 076401251 (correct check digit)
+      expect(entryLines[0]).toContain('076401251');
+    });
+
+    it('invalid group contains only invalid entries', () => {
+      const result = splitAchContent({
+        content: MIXED_VALIDITY_ACH,
+        mode: 'validate',
+      });
+      const invalidFiles = result.files!['invalid'];
+      expect(invalidFiles).toBeDefined();
+      const entryLines = invalidFiles.flatMap(t => t.split('\n').filter(l => l.startsWith('6')));
+      expect(entryLines.length).toBe(1);
+      // Invalid entry has routing 076401259 (bad check digit)
+      expect(entryLines[0]).toContain('076401259');
+    });
+
+    it('each group output has valid 94-character lines', () => {
+      const result = splitAchContent({
+        content: MIXED_VALIDITY_ACH,
+        mode: 'validate',
+      });
+      for (const files of Object.values(result.files!)) {
+        for (const text of files) {
+          const lines = text.split('\n').filter(l => l.length > 0);
+          for (const line of lines) {
+            expect(line.length).toBe(94);
+          }
+        }
+      }
+    });
+
+    it('each group output has exactly one file header and one file control', () => {
+      const result = splitAchContent({
+        content: MIXED_VALIDITY_ACH,
+        mode: 'validate',
+      });
+      for (const files of Object.values(result.files!)) {
+        for (const text of files) {
+          const lines = text.split('\n');
+          const fileHeaders = lines.filter(l => l.startsWith('1'));
+          const fileControls = lines.filter(l => l.startsWith('9') && !l.startsWith('99'));
+          expect(fileHeaders.length).toBe(1);
+          expect(fileControls.length).toBe(1);
+        }
+      }
+    });
+
+    it('single-entry invalid file produces only invalid group', () => {
+      const result = splitAchContent({
+        content: SINGLE_INVALID_SPLIT_ACH,
+        mode: 'validate',
+      });
+      expect(result.error).toBeUndefined();
+      expect(result.files).toBeDefined();
+      const keys = Object.keys(result.files!);
+      expect(keys).toContain('invalid');
+      expect(keys).not.toContain('valid');
+    });
+
+    it('returns error for unparseable input', () => {
+      const result = splitAchContent({
+        content: 'not ach content',
+        mode: 'validate',
+      });
+      expect(result.error).toBeDefined();
     });
   });
 });

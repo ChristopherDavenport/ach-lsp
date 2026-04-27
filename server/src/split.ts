@@ -1,7 +1,7 @@
 import { Reader, splitFile, writeFile } from 'ach-ts';
 import type { SplitOptions, SplitConditions, ValidateOpts } from 'ach-ts';
 
-export type SplitMode = 'conditions' | 'companyId' | 'companyName' | 'secCode';
+export type SplitMode = 'conditions' | 'companyId' | 'companyName' | 'secCode' | 'validate';
 
 export interface SplitParams {
   content: string;
@@ -36,6 +36,9 @@ export function splitAchContent(params: SplitParams): SplitResult {
         break;
       case 'secCode':
         options.groupBatch = (bh) => bh.standardEntryClassCode.trim();
+        break;
+      case 'validate':
+        options.validateEntry = true;
         break;
     }
 

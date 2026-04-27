@@ -395,6 +395,13 @@
         "category": "ACH",
         "icon": "$(group-by-ref-type)",
         "enablement": "editorLangId == ach"
+      },
+      {
+        "command": "ach.splitFileByValidity",
+        "title": "Split ACH File by Validity",
+        "category": "ACH",
+        "icon": "$(pass)",
+        "enablement": "editorLangId == ach"
       }
     ],
     "menus": {

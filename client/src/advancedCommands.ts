@@ -24,7 +24,8 @@ export function activateAdvancedCommands(
     commands.registerCommand('ach.mergeFiles', () => mergeAchFiles()),
     commands.registerCommand('ach.newFile', () => createNewFile()),
     commands.registerCommand('ach.splitFile', () => splitAchFile()),
-    commands.registerCommand('ach.splitFileByGroup', () => splitAchFileByGroup())
+    commands.registerCommand('ach.splitFileByGroup', () => splitAchFileByGroup()),
+    commands.registerCommand('ach.splitFileByValidity', () => splitAchFileByValidity())
   );
 }
 
@@ -352,5 +353,45 @@ async function splitAchFileByGroup(): Promise<void> {
   const groupSummary = groups.map(([key, files]) => `${key} (${files.length})`).join(', ');
   window.showInformationMessage(
     `Split into ${totalFiles} file${totalFiles > 1 ? 's' : ''} across ${groups.length} group${groups.length > 1 ? 's' : ''}: ${groupSummary}`
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Split active ACH file by entry validity
+// ---------------------------------------------------------------------------
+async function splitAchFileByValidity(): Promise<void> {
+  const editor = window.activeTextEditor;
+  if (!editor || editor.document.languageId !== 'ach') {
+    window.showWarningMessage('Open an ACH file first.');
+    return;
+  }
+  if (!lspClient) return;
+
+  const result = await lspClient.sendRequest<{ files?: Record<string, string[]>; error?: string }>(
+    'ach/splitFile',
+    {
+      content: editor.document.getText(),
+      mode: 'validate',
+    }
+  );
+
+  if (result.error || !result.files) {
+    window.showErrorMessage(`Split failed: ${result.error || 'Unknown error'}`);
+    return;
+  }
+
+  const groups = Object.entries(result.files);
+  let totalFiles = 0;
+  for (const [, fileList] of groups) {
+    for (const achText of fileList) {
+      const doc = await workspace.openTextDocument({ content: achText, language: 'ach' });
+      await window.showTextDocument(doc, { preview: false });
+      totalFiles++;
+    }
+  }
+
+  const groupSummary = groups.map(([key, files]) => `${key} (${files.length})`).join(', ');
+  window.showInformationMessage(
+    `Split into ${totalFiles} file${totalFiles > 1 ? 's' : ''}: ${groupSummary}`
   );
 }

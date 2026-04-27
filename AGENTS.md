@@ -58,7 +58,7 @@ The `ach-ts` library (in server/package.json) provides the core ACH parsing and 
 | `hover.ts` | Field metadata markdown: label, description, format, columns, value, contextual info |
 | `inlayHints.ts` | Cursor-position-aware field label hints; supports multi-cursor via client request |
 | `merge.ts` | Merge multiple ACH file contents using `ach-ts` `mergeFiles`; returns merged text or error |
-| `split.ts` | Split an ACH file by conditions (size limits) or batch grouping (company ID, company name, SEC code) using `ach-ts` `splitFile` |
+| `split.ts` | Split an ACH file by conditions (size limits), batch grouping (company ID, company name, SEC code), or entry validity using `ach-ts` `splitFile` |
 | `references.ts` | Find-all-references: batch header → entries + addenda + control; entry → batch + siblings; file header ↔ file control |
 | `selectionRange.ts` | Smart selection expansion: field → record (line) → batch → entire file |
 | `semanticTokens.ts` | 8 token types with per-field overrides to prevent adjacent same-color streaks |
@@ -71,7 +71,7 @@ The `ach-ts` library (in server/package.json) provides the core ACH parsing and 
 | `extension.ts` | Extension activation: LSP client (IPC transport, debug port 6009), tree view, preview panel, decorations, navigation commands |
 | `achPreview.ts` | Singleton webview panel: sends document content + diagnostics, receives edits; nonce-based CSP |
 | `achTreeView.ts` | `TreeDataProvider` for `achExplorer` view; requests `ach/getFileStructure`; click-to-reveal |
-| `advancedCommands.ts` | Validate all ACH files, export/import JSON (via server), merge files (via server), split files by constraints or grouping (via server), create new file |
+| `advancedCommands.ts` | Validate all ACH files, export/import JSON (via server), merge files (via server), split files by constraints, grouping, or validity (via server), create new file |
 | `contextCommands.ts` | Select Field and Copy Field Value commands using `ach/getFieldBoundaries` |
 | `fieldDecorations.ts` | Zebra-striped field backgrounds; requests `ach/getFieldBoundaries`; 150ms debounce |
 | `fieldNavigation.ts` | 8 arrow-key commands for field/section navigation with selection support; per-URI boundary cache |
