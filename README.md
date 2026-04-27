@@ -6,25 +6,82 @@ ACH (Automated Clearing House) files are the fixed-width, 94-character-per-line 
 
 ## Features
 
-- **Diagnostics** — Real-time parse and validation errors with 20+ configurable rules covering check digits, routing numbers, batch totals, addenda counts, and more
-- **Hover** — Field descriptions, format, column range, and current value; contextual info for amounts (cents → dollars), routing numbers (valid/invalid), dates, SEC codes, and transaction codes
+### Diagnostics
+
+Real-time parse and validation errors with 20+ configurable rules covering check digits, routing numbers, batch totals, addenda counts, and more.
+
+![Diagnostics](https://christopherdavenport.github.io/ach-lsp/images/errorDisplay.gif)
+
+### Hover
+
+Field descriptions, format, column range, and current value; contextual info for amounts (cents → dollars), routing numbers (valid/invalid), dates, SEC codes, and transaction codes.
+
+![Hover](https://christopherdavenport.github.io/ach-lsp/images/hover.gif)
+
+### Inlay Hints
+
+Cursor-aware field labels displayed inline with smart conversions for amounts, dates, routing numbers, and codes. Toggle with `Ctrl+Alt+H`.
+
+![Inlay Hints](https://christopherdavenport.github.io/ach-lsp/images/hints.gif)
+
+### Semantic Highlighting
+
+Per-field syntax highlighting using 8 token types with adjacency-aware coloring to ensure no two neighboring fields share the same color.
+
+![Semantic Highlighting](https://christopherdavenport.github.io/ach-lsp/images/semanticHighlight.png)
+
+### Code Actions
+
+Quick fixes to recalculate check digits, pad short lines, set record size, fix batch/file control totals, fix service class codes, fix dates/times; "Recalculate All" source action.
+
+![Code Actions](https://christopherdavenport.github.io/ach-lsp/images/quickActions.gif)
+
+### Formatting
+
+Document and range formatting via the `ach-ts` library; pads short lines in range selections.
+
+![Formatting](https://christopherdavenport.github.io/ach-lsp/images/formatting.gif)
+
+### Code Folding
+
+Collapse batches (header through control) and entries with their addenda records.
+
+![Code Folding](https://christopherdavenport.github.io/ach-lsp/images/codeFolding.gif)
+
+### Field Navigation
+
+`Ctrl+Arrow` moves the cursor between fields instead of words; `Ctrl+Up/Down` moves between sections (batches, file header/control).
+
+![Field Navigation](https://christopherdavenport.github.io/ach-lsp/images/codeNavigation.gif)
+
+### Document Symbols
+
+Outline view showing file header → batches → entries → addenda hierarchy with amounts and names.
+
+![Document Symbols](https://christopherdavenport.github.io/ach-lsp/images/outline.png)
+
+### ACH Explorer
+
+Tree view in the sidebar showing file structure; click a node to jump to its line.
+
+![ACH Explorer](https://christopherdavenport.github.io/ach-lsp/images/achExplorer.png)
+
+### Structured Preview
+
+Structured viewer with view, edit, search, and diff modes; auto-opens when you open an ACH file.
+
+![Structured Preview](https://christopherdavenport.github.io/ach-lsp/images/webView.png)
+
+### And More
+
 - **Completions** — Record type templates (1/5/6/7/8/9), SEC codes (PPD, CCD, IAT, WEB, …), transaction codes, service class codes, addenda types, and file ID modifiers
-- **Code Actions** — Quick fixes to recalculate check digits, pad short lines, set record size, fix batch/file control totals, fix service class codes, fix dates/times; "Recalculate All" source action
-- **Formatting** — Document and range formatting via the `ach-ts` library; pads short lines in range selections
 - **Go to Definition** — Jump between batch headers and controls, entries and their batch headers, addenda and their entries
 - **Find References** — Find all entries/addenda in a batch, sibling entries, or linked header/control records
 - **CodeLens** — Inline stats above file header (batch/entry counts, DR/CR totals), batch headers (entry counts, totals), and entries with addenda (addenda count)
 - **Document Links** — Clickable routing numbers linking to FedACH lookup
 - **Selection Range** — Smart expand selection: field → record → batch → file
 - **Workspace Symbols** — Search company names, entry names, and batch descriptions across all open ACH files
-- **Document Symbols** — Outline view showing file header → batches → entries → addenda hierarchy with amounts and names
-- **Semantic Tokens** — Per-field syntax highlighting using 8 token types (keyword, number, string, type, variable, comment, parameter, enum) with adjacency-aware coloring
-- **Folding** — Collapse batches (header through control) and entries with their addenda records
-- **Inlay Hints** — Cursor-aware field labels displayed inline; toggle with `Ctrl+Alt+H`
-- **ACH Explorer** — Tree view in the sidebar showing file structure; click a node to jump to its line
-- **Preview Panel** — Structured viewer with view, edit, search, and diff modes; auto-opens when you open an ACH file
 - **Field Decorations** — Zebra-striped alternating backgrounds to visually separate fields on each line
-- **Field Navigation** — `Ctrl+Arrow` moves the cursor between fields instead of words; `Ctrl+Up/Down` moves between sections (batches, file header/control)
 - **Status Bar** — Batch/entry counts, debit/credit totals, and error/warning counts at a glance
 - **Context Menu** — Select Field and Copy Field Value from the right-click menu
 - **Snippets** — 10 templates for record types, complete batches, and full ACH files

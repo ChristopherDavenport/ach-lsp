@@ -18,4 +18,5 @@ server/tsconfig.json
 shared/tsconfig.json
 esbuild.mjs
 .gitignore
+images
 site
