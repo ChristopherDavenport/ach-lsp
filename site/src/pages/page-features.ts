@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
+import { BASE_PATH } from '../base-path.js';
 
 @customElement('page-features')
 export class PageFeatures extends LitElement {
@@ -34,8 +35,8 @@ export class PageFeatures extends LitElement {
           <li>Entry/addenda count verification</li>
           <li>Batch sequencing and nesting</li>
         </ul>
-        <p>All validation rules are configurable — see the <a href="/config">Configuration</a> page for available toggles.</p>
-        <div class="screenshot"><img src="/images/errorDisplay.gif" alt="Diagnostics: inline error squiggles and Problems panel" loading="lazy"></div>
+        <p>All validation rules are configurable — see the <a href="${BASE_PATH}config">Configuration</a> page for available toggles.</p>
+        <div class="screenshot"><img src="${BASE_PATH}images/errorDisplay.gif" alt="Diagnostics: inline error squiggles and Problems panel" loading="lazy"></div>
       </section>
 
       <section>
@@ -64,7 +65,7 @@ export class PageFeatures extends LitElement {
           <li>Date fields: formatted as 2026-04-25</li>
           <li>Code fields: SEC, transaction, service class, and addenda type meanings</li>
         </ul>
-        <div class="screenshot"><img src="/images/hover.gif" alt="Hover: field documentation popup with amount formatting" loading="lazy"></div>
+        <div class="screenshot"><img src="${BASE_PATH}images/hover.gif" alt="Hover: field documentation popup with amount formatting" loading="lazy"></div>
       </section>
 
       <section>
@@ -76,13 +77,13 @@ export class PageFeatures extends LitElement {
           <li><strong>Compact labels</strong> — abbreviated field names like "Dest RTN", "Amt", "Batch #" keep the editor uncluttered</li>
           <li><strong>Toggle</strong> — Ctrl+Alt+H (Cmd+Alt+H on Mac) to show/hide</li>
         </ul>
-        <div class="screenshot"><img src="/images/hints.gif" alt="Inlay Hints: field labels at cursor position with amount conversion" loading="lazy"></div>
+        <div class="screenshot"><img src="${BASE_PATH}images/hints.gif" alt="Inlay Hints: field labels at cursor position with amount conversion" loading="lazy"></div>
       </section>
 
       <section>
         <h2><span class="icon">📐</span>Formatting</h2>
         <p>Format entire ACH files or selected ranges to proper 94-character fixed-width format using the <code>ach-ts</code> Writer. Range formatting pads short lines to 94 characters. Only full-document formatting requires a clean parse to prevent data corruption.</p>
-        <div class="screenshot"><img src="/images/formatting.gif" alt="Format Document: before and after" loading="lazy"></div>
+        <div class="screenshot"><img src="${BASE_PATH}images/formatting.gif" alt="Format Document: before and after" loading="lazy"></div>
       </section>
 
       <section>
@@ -98,7 +99,7 @@ export class PageFeatures extends LitElement {
           <li><strong>Fix dates/times</strong> — updates file creation date/time and effective entry dates to today</li>
           <li><strong>Recalculate All</strong> — source action that recalculates all computed fields in one pass</li>
         </ul>
-        <div class="screenshot"><img src="/images/quickActions.gif" alt="Code Actions: fix check digit lightbulb" loading="lazy"></div>
+        <div class="screenshot"><img src="${BASE_PATH}images/quickActions.gif" alt="Code Actions: fix check digit lightbulb" loading="lazy"></div>
       </section>
 
       <section>
@@ -108,7 +109,7 @@ export class PageFeatures extends LitElement {
           <li><strong>Batches</strong> — fold from batch header (type 5) through batch control (type 8)</li>
           <li><strong>Entries with addenda</strong> — fold from entry detail (type 6) through last addenda (type 7)</li>
         </ul>
-        <div class="screenshot"><img src="/images/codeFolding.gif" alt="Folding: collapsed batches in a multi-batch file" loading="lazy"></div>
+        <div class="screenshot"><img src="${BASE_PATH}images/codeFolding.gif" alt="Folding: collapsed batches in a multi-batch file" loading="lazy"></div>
       </section>
 
       <section>
@@ -132,7 +133,7 @@ export class PageFeatures extends LitElement {
           <li><strong>Addenda records</strong> — per-type overrides for terminal info (02), payment data (05), IAT addenda (10–18), NOC change codes (98), and return codes (99)</li>
         </ul>
         <p>The interactive viewer on the home page uses the same token mapping, so you can see the adjacency-aware coloring in action.</p>
-        <div class="screenshot"><img src="/images/semanticHighlight.png" alt="Semantic Highlighting: color-coded ACH file with adjacency-aware coloring" loading="lazy"></div>
+        <div class="screenshot"><img src="${BASE_PATH}images/semanticHighlight.png" alt="Semantic Highlighting: color-coded ACH file with adjacency-aware coloring" loading="lazy"></div>
       </section>
 
       <section>
@@ -155,7 +156,7 @@ export class PageFeatures extends LitElement {
           <li><strong>Selection</strong> — add Shift to extend selection to field or section boundaries</li>
           <li><strong>Multi-cursor</strong> — all commands work with multiple cursors simultaneously</li>
         </ul>
-        <div class="screenshot"><img src="/images/codeNavigation.gif" alt="Field Navigation: jumping between fields with keyboard shortcuts" loading="lazy"></div>
+        <div class="screenshot"><img src="${BASE_PATH}images/codeNavigation.gif" alt="Field Navigation: jumping between fields with keyboard shortcuts" loading="lazy"></div>
       </section>
 
       <section>
@@ -168,7 +169,7 @@ export class PageFeatures extends LitElement {
           <li>Addenda records by type</li>
           <li>Batch and File Control records with totals</li>
         </ul>
-        <div class="screenshot"><img src="/images/outline.png" alt="Outline: hierarchical file structure" loading="lazy"></div>
+        <div class="screenshot"><img src="${BASE_PATH}images/outline.png" alt="Outline: hierarchical file structure" loading="lazy"></div>
       </section>
 
       <section>
@@ -178,7 +179,7 @@ export class PageFeatures extends LitElement {
           <li><strong>IAT batches</strong> — labeled as "Batch N (IAT)" with addenda 10–18, 98, 99 shown as child nodes</li>
           <li><strong>Fallback parsing</strong> — regex-based text parsing ensures the tree works even with partial or malformed files</li>
         </ul>
-        <div class="screenshot"><img src="/images/achExplorer.png" alt="ACH Explorer: sidebar tree with batch/entry/addenda nodes" loading="lazy"></div>
+        <div class="screenshot"><img src="${BASE_PATH}images/achExplorer.png" alt="ACH Explorer: sidebar tree with batch/entry/addenda nodes" loading="lazy"></div>
       </section>
 
       <section>
@@ -191,9 +192,9 @@ export class PageFeatures extends LitElement {
           <li><strong>Search</strong> — query across all parsed fields</li>
           <li><strong>Diff view</strong> — compare original vs. modified content</li>
           <li><strong>Diagnostics overlay</strong> — validation errors from the server shown inline</li>
-          <li><strong>Auto-open</strong> — opens automatically when ACH files are opened (configurable via <code>ach.autoOpenPreview</code>), or toggle with Ctrl+Shift+V</li>
+          <li><strong>Auto-open</strong> — optionally opens automatically when ACH files are opened (enable via <code>ach.autoOpenPreview</code>), or toggle with Ctrl+Shift+V</li>
         </ul>
-        <div class="screenshot"><img src="/images/webView.png" alt="Structured Preview: hierarchical view with field editing" loading="lazy"></div>
+        <div class="screenshot"><img src="${BASE_PATH}images/webView.png" alt="Structured Preview: hierarchical view with field editing" loading="lazy"></div>
       </section>
 
       <section>

@@ -68,7 +68,7 @@ Tree view in the sidebar showing file structure; click a node to jump to its lin
 
 ### Structured Preview
 
-Structured viewer with view, edit, search, and diff modes; auto-opens when you open an ACH file.
+Structured viewer with view, edit, search, and diff modes; open with Ctrl+Shift+V or enable auto-open via `ach.autoOpenPreview`.
 
 ![Structured Preview](https://christopherdavenport.github.io/ach-lsp/images/webView.png)
 
@@ -147,7 +147,7 @@ All commands are available via the Command Palette (`Ctrl+Shift+P`):
 | `ach.maxNumberOfProblems` | number | `1000` | Maximum number of problems reported by the server |
 | `ach.trace.server` | string | `"off"` | Traces communication between VS Code and the language server (`off`, `messages`, `verbose`) |
 | `ach.fieldSeparators` | boolean | `true` | Show visual separators between fields in the editor |
-| `ach.autoOpenPreview` | boolean | `true` | Automatically open the preview panel when opening an ACH file |
+| `ach.autoOpenPreview` | boolean | `false` | Automatically open the preview panel when opening an ACH file |
 
 ### Validation
 

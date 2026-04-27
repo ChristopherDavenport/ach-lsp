@@ -260,7 +260,7 @@
           "order": 4,
           "scope": "window",
           "type": "boolean",
-          "default": true,
+          "default": false,
           "description": "Automatically open the ACH Preview panel when opening an ACH file."
         }
       }

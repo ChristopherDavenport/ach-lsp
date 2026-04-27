@@ -197,7 +197,7 @@ export async function activate(context: ExtensionContext) {
   // Auto-open preview when an ACH file is opened
   context.subscriptions.push(
     workspace.onDidOpenTextDocument((document) => {
-      if (document.languageId === 'ach' && workspace.getConfiguration('ach').get<boolean>('autoOpenPreview', true)) {
+      if (document.languageId === 'ach' && workspace.getConfiguration('ach').get<boolean>('autoOpenPreview', false)) {
         setTimeout(() => {
           AchPreviewPanel.createOrShow(context.extensionUri, document);
         }, 100);
@@ -208,7 +208,7 @@ export async function activate(context: ExtensionContext) {
   // Initial tree view refresh if an ACH file is already open
   if (window.activeTextEditor?.document.languageId === 'ach') {
     treeProvider.refresh(window.activeTextEditor.document.uri);
-    if (workspace.getConfiguration('ach').get<boolean>('autoOpenPreview', true)) {
+    if (workspace.getConfiguration('ach').get<boolean>('autoOpenPreview', false)) {
       AchPreviewPanel.createOrShow(context.extensionUri, window.activeTextEditor.document);
     }
   }

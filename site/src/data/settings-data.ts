@@ -7,7 +7,7 @@ export interface ValidationSetting {
 
 export const VALIDATION_SETTINGS: ValidationSetting[] = [
   { key: 'ach.fieldSeparators', type: 'boolean', default: true, description: 'Show zebra-striped field decorations that visually separate fixed-width fields.' },
-  { key: 'ach.autoOpenPreview', type: 'boolean', default: true, description: 'Automatically open the structured preview panel when an ACH file is opened.' },
+  { key: 'ach.autoOpenPreview', type: 'boolean', default: false, description: 'Automatically open the structured preview panel when an ACH file is opened.' },
   { key: 'ach.maxNumberOfProblems', type: 'number', default: 1000, description: 'Controls the maximum number of problems produced by the server.' },
   { key: 'ach.trace.server', type: 'string', default: 'off', description: 'Traces the communication between VS Code and the ACH language server.' },
   { key: 'ach.validation.skipAll', type: 'boolean', default: false, description: 'Disable all validation.' },
