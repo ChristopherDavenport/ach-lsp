@@ -10,19 +10,19 @@ ACH (Automated Clearing House) files are the fixed-width, 94-character-per-line 
 
 Real-time parse and validation errors with 20+ configurable rules covering check digits, routing numbers, batch totals, addenda counts, and more.
 
-![Diagnostics](https://christopherdavenport.github.io/ach-lsp/images/errorDisplay.gif)
+![Diagnostics](https://christopherdavenport.github.io/ach-lsp/images/errorDisplay.webp)
 
 ### Hover
 
 Field descriptions, format, column range, and current value; contextual info for amounts (cents → dollars), routing numbers (valid/invalid), dates, SEC codes, and transaction codes.
 
-![Hover](https://christopherdavenport.github.io/ach-lsp/images/hover.gif)
+![Hover](https://christopherdavenport.github.io/ach-lsp/images/hover.webp)
 
 ### Inlay Hints
 
 Cursor-aware field labels displayed inline with smart conversions for amounts, dates, routing numbers, and codes. Toggle with `Ctrl+Alt+H`.
 
-![Inlay Hints](https://christopherdavenport.github.io/ach-lsp/images/hints.gif)
+![Inlay Hints](https://christopherdavenport.github.io/ach-lsp/images/hints.webp)
 
 ### Semantic Highlighting
 
@@ -34,25 +34,25 @@ Per-field syntax highlighting using 8 token types with adjacency-aware coloring 
 
 Quick fixes to recalculate check digits, pad short lines, set record size, fix batch/file control totals, fix service class codes, fix dates/times; "Recalculate All" source action.
 
-![Code Actions](https://christopherdavenport.github.io/ach-lsp/images/quickActions.gif)
+![Code Actions](https://christopherdavenport.github.io/ach-lsp/images/quickActions.webp)
 
 ### Formatting
 
 Document and range formatting via the `ach-ts` library; pads short lines in range selections.
 
-![Formatting](https://christopherdavenport.github.io/ach-lsp/images/formatting.gif)
+![Formatting](https://christopherdavenport.github.io/ach-lsp/images/formatting.webp)
 
 ### Code Folding
 
 Collapse batches (header through control) and entries with their addenda records.
 
-![Code Folding](https://christopherdavenport.github.io/ach-lsp/images/codeFolding.gif)
+![Code Folding](https://christopherdavenport.github.io/ach-lsp/images/codeFolding.webp)
 
 ### Field Navigation
 
 `Ctrl+Arrow` moves the cursor between fields instead of words; `Ctrl+Up/Down` moves between sections (batches, file header/control).
 
-![Field Navigation](https://christopherdavenport.github.io/ach-lsp/images/codeNavigation.gif)
+![Field Navigation](https://christopherdavenport.github.io/ach-lsp/images/codeNavigation.webp)
 
 ### Document Symbols
 

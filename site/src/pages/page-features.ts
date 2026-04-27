@@ -36,7 +36,7 @@ export class PageFeatures extends LitElement {
           <li>Batch sequencing and nesting</li>
         </ul>
         <p>All validation rules are configurable — see the <a href="${BASE_PATH}config">Configuration</a> page for available toggles.</p>
-        <div class="screenshot"><img src="${BASE_PATH}images/errorDisplay.gif" alt="Diagnostics: inline error squiggles and Problems panel" loading="lazy"></div>
+        <div class="screenshot"><img src="${BASE_PATH}images/errorDisplay.webp" alt="Diagnostics: inline error squiggles and Problems panel" loading="lazy"></div>
       </section>
 
       <section>
@@ -65,7 +65,7 @@ export class PageFeatures extends LitElement {
           <li>Date fields: formatted as 2026-04-25</li>
           <li>Code fields: SEC, transaction, service class, and addenda type meanings</li>
         </ul>
-        <div class="screenshot"><img src="${BASE_PATH}images/hover.gif" alt="Hover: field documentation popup with amount formatting" loading="lazy"></div>
+        <div class="screenshot"><img src="${BASE_PATH}images/hover.webp" alt="Hover: field documentation popup with amount formatting" loading="lazy"></div>
       </section>
 
       <section>
@@ -77,13 +77,13 @@ export class PageFeatures extends LitElement {
           <li><strong>Compact labels</strong> — abbreviated field names like "Dest RTN", "Amt", "Batch #" keep the editor uncluttered</li>
           <li><strong>Toggle</strong> — Ctrl+Alt+H (Cmd+Alt+H on Mac) to show/hide</li>
         </ul>
-        <div class="screenshot"><img src="${BASE_PATH}images/hints.gif" alt="Inlay Hints: field labels at cursor position with amount conversion" loading="lazy"></div>
+        <div class="screenshot"><img src="${BASE_PATH}images/hints.webp" alt="Inlay Hints: field labels at cursor position with amount conversion" loading="lazy"></div>
       </section>
 
       <section>
         <h2><span class="icon">📐</span>Formatting</h2>
         <p>Format entire ACH files or selected ranges to proper 94-character fixed-width format using the <code>ach-ts</code> Writer. Range formatting pads short lines to 94 characters. Only full-document formatting requires a clean parse to prevent data corruption.</p>
-        <div class="screenshot"><img src="${BASE_PATH}images/formatting.gif" alt="Format Document: before and after" loading="lazy"></div>
+        <div class="screenshot"><img src="${BASE_PATH}images/formatting.webp" alt="Format Document: before and after" loading="lazy"></div>
       </section>
 
       <section>
@@ -99,7 +99,7 @@ export class PageFeatures extends LitElement {
           <li><strong>Fix dates/times</strong> — updates file creation date/time and effective entry dates to today</li>
           <li><strong>Recalculate All</strong> — source action that recalculates all computed fields in one pass</li>
         </ul>
-        <div class="screenshot"><img src="${BASE_PATH}images/quickActions.gif" alt="Code Actions: fix check digit lightbulb" loading="lazy"></div>
+        <div class="screenshot"><img src="${BASE_PATH}images/quickActions.webp" alt="Code Actions: fix check digit lightbulb" loading="lazy"></div>
       </section>
 
       <section>
@@ -109,7 +109,7 @@ export class PageFeatures extends LitElement {
           <li><strong>Batches</strong> — fold from batch header (type 5) through batch control (type 8)</li>
           <li><strong>Entries with addenda</strong> — fold from entry detail (type 6) through last addenda (type 7)</li>
         </ul>
-        <div class="screenshot"><img src="${BASE_PATH}images/codeFolding.gif" alt="Folding: collapsed batches in a multi-batch file" loading="lazy"></div>
+        <div class="screenshot"><img src="${BASE_PATH}images/codeFolding.webp" alt="Folding: collapsed batches in a multi-batch file" loading="lazy"></div>
       </section>
 
       <section>
@@ -156,7 +156,7 @@ export class PageFeatures extends LitElement {
           <li><strong>Selection</strong> — add Shift to extend selection to field or section boundaries</li>
           <li><strong>Multi-cursor</strong> — all commands work with multiple cursors simultaneously</li>
         </ul>
-        <div class="screenshot"><img src="${BASE_PATH}images/codeNavigation.gif" alt="Field Navigation: jumping between fields with keyboard shortcuts" loading="lazy"></div>
+        <div class="screenshot"><img src="${BASE_PATH}images/codeNavigation.webp" alt="Field Navigation: jumping between fields with keyboard shortcuts" loading="lazy"></div>
       </section>
 
       <section>
