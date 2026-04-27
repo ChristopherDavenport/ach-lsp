@@ -7,10 +7,8 @@ import {
   addenda13Fields, addenda14Fields, addenda15Fields,
   addenda16Fields, addenda17Fields, addenda18Fields,
   addenda98Fields, addenda99Fields,
-} from 'ach-ts/dist/fieldPositions.js';
-import { Reader } from 'ach-ts/dist/reader.js';
-// Side-effect import: registers batch subclasses so Reader validation works correctly
-import 'ach-ts/dist/batches/index.js';
+  Reader,
+} from 'ach-ts';
 import { FIELD_DESCRIPTIONS, getSecCodeForLine, TOKEN_TYPES, getTokenType } from '../data/ach-data.js';
 
 const addendaFieldsByTypeCode: Record<string, FieldSpec[]> = {

@@ -1,4 +1,4 @@
-import { CheckRoutingNumber, CalculateCheckDigit } from 'ach-ts/dist/utils/validators.js';
+import { CheckRoutingNumber, CalculateCheckDigit } from 'ach-ts';
 import {
   RECORD_TYPE_DESCRIPTIONS,
   TRANSACTION_CODE_DESCRIPTIONS,
