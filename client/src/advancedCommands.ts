@@ -22,7 +22,10 @@ export function activateAdvancedCommands(
     commands.registerCommand('ach.exportJson', () => exportJson()),
     commands.registerCommand('ach.importJson', () => importJson()),
     commands.registerCommand('ach.mergeFiles', () => mergeAchFiles()),
-    commands.registerCommand('ach.newFile', () => createNewFile())
+    commands.registerCommand('ach.newFile', () => createNewFile()),
+    commands.registerCommand('ach.splitFile', () => splitAchFile()),
+    commands.registerCommand('ach.splitFileByGroup', () => splitAchFileByGroup()),
+    commands.registerCommand('ach.splitFileByValidity', () => splitAchFileByValidity())
   );
 }
 
@@ -240,4 +243,155 @@ async function createNewFile(): Promise<void> {
 
   const doc = await workspace.openTextDocument({ content: achContent, language: 'ach' });
   await window.showTextDocument(doc);
+}
+
+// ---------------------------------------------------------------------------
+// Split active ACH file by size constraints
+// ---------------------------------------------------------------------------
+async function splitAchFile(): Promise<void> {
+  const editor = window.activeTextEditor;
+  if (!editor || editor.document.languageId !== 'ach') {
+    window.showWarningMessage('Open an ACH file first.');
+    return;
+  }
+  if (!lspClient) return;
+
+  const constraintItems = [
+    { label: 'Max Lines', key: 'maxLines' },
+    { label: 'Max Entries', key: 'maxEntries' },
+    { label: 'Max Batches', key: 'maxBatches' },
+    { label: 'Max Dollar Amount (cents)', key: 'maxDollarAmount' },
+  ];
+
+  const picked = await window.showQuickPick(constraintItems, {
+    placeHolder: 'Select split constraint',
+    title: 'Split ACH File',
+  });
+  if (!picked) return;
+
+  const valueStr = await window.showInputBox({
+    prompt: `Enter value for ${picked.label}`,
+    validateInput: (v) => {
+      const n = Number(v);
+      if (!Number.isInteger(n) || n <= 0) return 'Enter a positive integer';
+      return undefined;
+    },
+  });
+  if (!valueStr) return;
+
+  const result = await lspClient.sendRequest<{ files?: Record<string, string[]>; error?: string }>(
+    'ach/splitFile',
+    {
+      content: editor.document.getText(),
+      mode: 'conditions',
+      conditions: { [picked.key]: Number(valueStr) },
+    }
+  );
+
+  if (result.error || !result.files) {
+    window.showErrorMessage(`Split failed: ${result.error || 'Unknown error'}`);
+    return;
+  }
+
+  const allFiles = Object.values(result.files).flat();
+  for (const achText of allFiles) {
+    const doc = await workspace.openTextDocument({ content: achText, language: 'ach' });
+    await window.showTextDocument(doc, { preview: false });
+  }
+
+  window.showInformationMessage(
+    `Split into ${allFiles.length} file${allFiles.length > 1 ? 's' : ''}.`
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Split active ACH file by batch grouping
+// ---------------------------------------------------------------------------
+async function splitAchFileByGroup(): Promise<void> {
+  const editor = window.activeTextEditor;
+  if (!editor || editor.document.languageId !== 'ach') {
+    window.showWarningMessage('Open an ACH file first.');
+    return;
+  }
+  if (!lspClient) return;
+
+  const groupItems = [
+    { label: 'Company Identification', mode: 'companyId' },
+    { label: 'Company Name', mode: 'companyName' },
+    { label: 'SEC Code', mode: 'secCode' },
+  ];
+
+  const picked = await window.showQuickPick(groupItems, {
+    placeHolder: 'Select grouping field',
+    title: 'Split ACH File by Group',
+  });
+  if (!picked) return;
+
+  const result = await lspClient.sendRequest<{ files?: Record<string, string[]>; error?: string }>(
+    'ach/splitFile',
+    {
+      content: editor.document.getText(),
+      mode: picked.mode,
+    }
+  );
+
+  if (result.error || !result.files) {
+    window.showErrorMessage(`Split failed: ${result.error || 'Unknown error'}`);
+    return;
+  }
+
+  const groups = Object.entries(result.files);
+  let totalFiles = 0;
+  for (const [, fileList] of groups) {
+    for (const achText of fileList) {
+      const doc = await workspace.openTextDocument({ content: achText, language: 'ach' });
+      await window.showTextDocument(doc, { preview: false });
+      totalFiles++;
+    }
+  }
+
+  const groupSummary = groups.map(([key, files]) => `${key} (${files.length})`).join(', ');
+  window.showInformationMessage(
+    `Split into ${totalFiles} file${totalFiles > 1 ? 's' : ''} across ${groups.length} group${groups.length > 1 ? 's' : ''}: ${groupSummary}`
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Split active ACH file by entry validity
+// ---------------------------------------------------------------------------
+async function splitAchFileByValidity(): Promise<void> {
+  const editor = window.activeTextEditor;
+  if (!editor || editor.document.languageId !== 'ach') {
+    window.showWarningMessage('Open an ACH file first.');
+    return;
+  }
+  if (!lspClient) return;
+
+  const result = await lspClient.sendRequest<{ files?: Record<string, string[]>; error?: string }>(
+    'ach/splitFile',
+    {
+      content: editor.document.getText(),
+      mode: 'validate',
+    }
+  );
+
+  if (result.error || !result.files) {
+    window.showErrorMessage(`Split failed: ${result.error || 'Unknown error'}`);
+    return;
+  }
+
+  const groups = Object.entries(result.files);
+  let totalFiles = 0;
+  for (const [, fileList] of groups) {
+    for (const achText of fileList) {
+      const doc = await workspace.openTextDocument({ content: achText, language: 'ach' });
+      await window.showTextDocument(doc, { preview: false });
+      totalFiles++;
+    }
+  }
+
+  const groupSummary = groups.map(([key, files]) => `${key} (${files.length})`).join(', ');
+  window.showInformationMessage(
+    `Split into ${totalFiles} file${totalFiles > 1 ? 's' : ''}: ${groupSummary}`
+  );
 }
