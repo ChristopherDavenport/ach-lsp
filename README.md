@@ -200,3 +200,4 @@ npm run package   # Build .vsix for distribution
 ## License
 
 [MIT](LICENSE.md)
+
