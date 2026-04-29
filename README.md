@@ -1,6 +1,6 @@
 # ACH Language Support
 
-Language server and editing support for NACHA ACH files in VS Code.
+Language server and editing support for NACHA ACH files, and VSCode Plugin.
 
 ACH (Automated Clearing House) files are the fixed-width, 94-character-per-line format used for electronic banking transactions across the US financial system. This extension provides full Language Server Protocol support — diagnostics, hover, completions, formatting, navigation, and more — so you can inspect, edit, and validate ACH files directly in your editor.
 
