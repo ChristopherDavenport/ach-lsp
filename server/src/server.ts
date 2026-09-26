@@ -325,9 +325,10 @@ connection.onRequest('ach/exportJson', (params: { uri: string }) => {
 // Custom request: import ach-ts JSON to ACH text
 connection.onRequest('ach/importJson', (params: { json: string }) => {
   try {
-    const files = fileFromJSON(params.json);
-    if (!files || files.length === 0) return null;
-    return writeFile(files[0]);
+    // fileFromJSON returns a Go-style [value, error] tuple, not a list of files.
+    const [file, err] = fileFromJSON(params.json);
+    if (err || !file) return null;
+    return writeFile(file);
   } catch (e) {
     return null;
   }

@@ -6,3 +6,4 @@ shared/out/
 site/dist/
 *.vsix
 .vscode-test/
+*.tsbuildinfo

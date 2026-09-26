@@ -17,7 +17,7 @@ site/      Documentation website (Lit + Vite SPA) — not part of the extension 
 npm install           # triggers postinstall → installs client/ and server/ deps
 npm run compile       # esbuild bundles 3 targets (see Bundling below)
 npm run watch         # dev watch mode with source maps
-npm test              # vitest in server/ (18 test files, 191 tests)
+npm test              # vitest in server/ (19 test files, 213 tests)
 npm run lint          # ESLint on client/src and server/src
 npm run package       # create .vsix via @vscode/vsce
 ```
@@ -117,4 +117,4 @@ Production builds are minified. Watch mode includes source maps. Target: ES2022.
 
 ## Testing
 
-Tests use vitest. Run with `npm test` from the root (delegates to `cd server && npm test`). 18 test files with 191 tests covering all server modules. Shared fixtures in `testFixtures.ts` and helpers in `testHelpers.ts`.
+Tests use vitest. Run with `npm test` from the root (delegates to `cd server && npm test`). 19 test files with 213 tests covering all server modules. Shared fixtures in `testFixtures.ts` and helpers in `testHelpers.ts`.

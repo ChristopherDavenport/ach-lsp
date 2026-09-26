@@ -1,22 +1,24 @@
-.vscode
-.vscode-test
-src
+.vscode/**
+.vscode-test/**
+.github/**
+
+# Everything is bundled by esbuild into client/out and server/out,
+# so no package's node_modules or sources need to ship.
+# NOTE: do not add a `!**/*.d.ts` negation here — it re-includes the
+# entire node_modules tree and inflates the VSIX by ~4.5 MB.
+**/node_modules/**
+**/src/**
 **/*.ts
-!**/*.d.ts
 **/*.map
-**/*.test.ts
-node_modules
-client/node_modules
-server/node_modules
-shared/node_modules
-client/src
-server/src
-shared/src
-tsconfig.json
-client/tsconfig.json
-server/tsconfig.json
-shared/tsconfig.json
+**/tsconfig.json
+**/tsconfig.tsbuildinfo
+**/package-lock.json
+
+# Docs site is not part of the extension bundle.
+site/**
+images/**
+
 esbuild.mjs
 .gitignore
-images
-site
+AGENTS.md
+**/*.vsix

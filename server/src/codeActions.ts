@@ -31,7 +31,10 @@ export function provideCodeActions(
 
     const line = lines[diagnostic.range.start.line];
     if (!line) continue;
-    const msg = diagnostic.message.toLowerCase();
+    // LSP 3.18 widened Diagnostic.message to string | MarkupContent.
+    const msg = (
+      typeof diagnostic.message === 'string' ? diagnostic.message : diagnostic.message.value
+    ).toLowerCase();
 
     // Fix invalid check digit
     if (diagnostic.code === 'checkDigit' || msg.includes('check digit')) {
