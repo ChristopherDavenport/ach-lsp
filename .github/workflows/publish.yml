@@ -27,7 +27,9 @@ jobs:
       - name: Set version from tag
         run: |
           TAG_VERSION="${GITHUB_REF_NAME#v}"
-          npm version "$TAG_VERSION" --no-git-tag-version
+          # --allow-same-version: package.json may already match the tag,
+          # which npm otherwise treats as an error ("Version not changed").
+          npm version "$TAG_VERSION" --no-git-tag-version --allow-same-version
 
       - name: Compile
         run: npm run compile
