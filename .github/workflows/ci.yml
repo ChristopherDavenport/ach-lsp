@@ -26,6 +26,9 @@ jobs:
         working-directory: shared
         run: npm install
 
+      - name: Typecheck
+        run: npm run typecheck
+
       - name: Compile
         run: npm run compile
 
