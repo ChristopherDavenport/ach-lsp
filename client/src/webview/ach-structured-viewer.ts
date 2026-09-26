@@ -1,13 +1,15 @@
 import { LitElement, html, css, nothing, type TemplateResult } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { Task } from '@lit/task';
-import { Reader } from 'ach-ts/dist/reader.js';
-import { Writer } from 'ach-ts/dist/writer.js';
-import { newBatchHeader } from 'ach-ts/dist/batchHeader.js';
-import { newBatch } from 'ach-ts/dist/batch.js';
-import { newEntryDetail } from 'ach-ts/dist/entryDetail.js';
-import { newAddenda05 } from 'ach-ts/dist/addenda/addenda05.js';
-import type { File as ACHFile } from 'ach-ts';
+import {
+  Reader,
+  Writer,
+  newBatchHeader,
+  newBatch,
+  newEntryDetail,
+  newAddenda05,
+  type File as ACHFile,
+} from 'ach-ts';
 import {
   FIELD_DESCRIPTIONS,
   TRANSACTION_CODE_DESCRIPTIONS,

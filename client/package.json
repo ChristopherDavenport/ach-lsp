@@ -1,17 +1,17 @@
 {
   "name": "ach-lsp-client",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "engines": {
-    "vscode": "^1.85.0"
+    "vscode": "^1.91.0"
   },
   "dependencies": {
     "@lit/task": "^1.0.3",
-    "ach-ts": "^0.0.2",
-    "lit": "^3.3.2",
-    "vscode-languageclient": "^9.0.0"
+    "ach-ts": "^0.1.0",
+    "lit": "^3.3.3",
+    "vscode-languageclient": "^10.1.2"
   },
   "devDependencies": {
-    "@types/vscode": "^1.85.0"
+    "@types/vscode": "~1.91.0"
   }
 }

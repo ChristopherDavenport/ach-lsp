@@ -2,9 +2,9 @@
   "name": "ach-lsp",
   "displayName": "ACH",
   "description": "Language server and editing support for NACHA ACH files",
-  "version": "0.1.0",
-  "publisher": "christopherdavenport", 
-  "icon": "icon.png", 
+  "version": "0.2.0",
+  "publisher": "christopherdavenport",
+  "icon": "icon.png",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -15,7 +15,7 @@
     "url": "https://github.com/christopherdavenport/ach-lsp/issues"
   },
   "engines": {
-    "vscode": "^1.85.0"
+    "vscode": "^1.91.0"
   },
   "categories": [
     "Programming Languages",
@@ -509,7 +509,9 @@
     "configurationDefaults": {
       "[ach]": {
         "editor.inlayHints.enabled": "on",
-        "editor.rulers": [94],
+        "editor.rulers": [
+          94
+        ],
         "editor.stickyScroll.enabled": true,
         "editor.stickyScroll.defaultModel": "outlineModel"
       },
@@ -591,13 +593,14 @@
     "compile": "node esbuild.mjs",
     "watch": "node esbuild.mjs --watch",
     "lint": "eslint ./client/src ./server/src --ext .ts",
+    "typecheck": "tsc -p shared/tsconfig.json --noEmit && tsc -p server/tsconfig.json && tsc -p client/tsconfig.json",
     "postinstall": "cd client && npm install && cd ../server && npm install",
     "test": "cd server && npm test",
     "package": "npx @vscode/vsce package"
   },
   "devDependencies": {
-    "esbuild": "^0.21.0",
+    "esbuild": "^0.28.2",
     "@types/node": "^20.0.0",
-    "typescript": "^5.5.0"
+    "typescript": "^7.0.2"
   }
 }

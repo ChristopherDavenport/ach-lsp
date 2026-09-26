@@ -150,7 +150,7 @@ function errorToDiagnostic(err: Error, lines: string[]): Diagnostic | null {
   }
 
   // Map severity
-  let severity = DiagnosticSeverity.Error;
+  let severity: DiagnosticSeverity = DiagnosticSeverity.Error;
   if (achErr.severity === 'warning') {
     severity = DiagnosticSeverity.Warning;
   } else if (achErr.severity === 'info') {
